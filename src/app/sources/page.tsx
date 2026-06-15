@@ -1,6 +1,15 @@
 import manifest from "../../../public/data/manifest.json";
 import { getDataStats, getSources } from "@/data/loaders";
 
+function plainSourceType(sourceType: string) {
+  if (sourceType.includes("api")) return "official API";
+  if (sourceType.includes("csv")) return "official data file";
+  if (sourceType.includes("dataset")) return "official dataset";
+  if (sourceType.includes("geodata")) return "official map data";
+  if (sourceType.includes("html")) return "official web page";
+  return sourceType.replaceAll("_", " ");
+}
+
 function plainSourceUse(use: string) {
   if (use.includes("Catalogued for future")) return "Listed for a future cleaned data layer. Not used as a score yet.";
   if (use.includes("not displayed")) return "Listed for a future cleaned data layer. Not used as a score yet.";
@@ -17,24 +26,25 @@ export default async function SourcesPage() {
   return (
     <main className="content-page">
       <section className="page-hero">
-        <div className="eyebrow">Source catalogue</div>
-        <h1>The public sources behind the Atlas.</h1>
+        <div className="eyebrow">Data sources</div>
+        <h1>Where the evidence comes from.</h1>
         <p>
-          This page shows what the database knows today. Company, press-release, and procurement feeds are ready in the database, but they stay empty until real source rows are added.
+          Every number on the Atlas should point back to a public source. This page shows what the
+          database can use today, what is already feeding scores, and what is waiting for reviewed rows.
         </p>
       </section>
 
       <section className="manifest-panel">
         <div>
-          <span>Data store</span>
+          <span>Data currently served from</span>
           <strong>{stats.backend}</strong>
         </div>
         <div>
-          <span>Public rows</span>
+          <span>Published records</span>
           <strong>{stats.sources} sources / {stats.regionScores} scores</strong>
         </div>
         <div>
-          <span>Next feeds</span>
+          <span>Feed tables waiting for review</span>
           <strong>{stats.companies} companies / {stats.pressReleases} releases / {stats.procurementNotices} notices</strong>
         </div>
       </section>
@@ -49,15 +59,23 @@ export default async function SourcesPage() {
           <strong>{manifest.artifactVersion}</strong>
         </div>
         <div>
-          <span>Rule</span>
+          <span>Source rule</span>
           <strong>{manifest.sourcePolicy}</strong>
         </div>
+      </section>
+
+      <section className="method-section">
+        <h2>How to use this page</h2>
+        <p>
+          Open a source when you want to check a number, understand a data gap, or see what feed should be
+          connected next. A listed source does not always mean it is already used in a regional score.
+        </p>
       </section>
 
       <section className="source-grid">
         {sources.map((source) => (
           <a key={source.id} className="source-card" href={source.url} target="_blank" rel="noreferrer">
-            <span>Tier {source.tier} / {source.sourceType}</span>
+            <span>Source confidence tier {source.tier} / {plainSourceType(source.sourceType)}</span>
             <h2>{source.title}</h2>
             <p>{plainSourceUse(source.use)}</p>
             <small>{source.publisher} / {source.cadence}</small>

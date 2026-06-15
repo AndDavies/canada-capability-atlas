@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Code2, Database, FileText, MapPinned } from "lucide-react";
 
 const links = [
-  { href: "/", label: "Explorer", icon: MapPinned },
-  { href: "/methodology", label: "Methodology", icon: FileText },
-  { href: "/sources", label: "Sources", icon: Database },
+  { href: "/", label: "Explore", icon: MapPinned },
+  { href: "/methodology", label: "How it works", icon: FileText },
+  { href: "/sources", label: "Data sources", icon: Database },
 ] as const;
 
 export function SiteHeader() {
@@ -28,10 +28,10 @@ export function SiteHeader() {
         <Link
           className="nav-link"
           href="/sources"
-          aria-label="Open source data catalogue"
+          aria-label="Open the public source list"
         >
           <Code2 size={15} strokeWidth={1.8} />
-          <span className="hidden md:inline">Open data</span>
+          <span className="hidden md:inline">Source list</span>
         </Link>
       </div>
     </header>

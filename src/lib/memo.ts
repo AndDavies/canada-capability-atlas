@@ -60,15 +60,15 @@ export function buildCapabilityMemo(data: AtlasData, sources: Source[], request:
     generatedAt: data.generatedAt,
     confidence: score.confidence,
     rank,
-    summary: `${region.name} ranks #${rank} of ${data.regions.length} for ${mission.name} with a strength score of ${score.readinessScore}/100. The clearest public number right now is ${firmSignal}; research is shown as ${rdSignal}.`,
+    summary: `${region.name} ranks #${rank} of ${data.regions.length} for ${mission.name}. Its public evidence score is ${score.readinessScore}/100. The clearest measured number right now is ${firmSignal}; the research signal is ${rdSignal}.`,
     findings: [
-      `Search area: ${mission.description}`,
-      `Companies and sites: ${firmSignal}.`,
-      `Research: ${rdSignal}.`,
+      `Capability need: ${mission.description}`,
+      `Company and site count: ${firmSignal}.`,
+      `Research signal: ${rdSignal}.`,
       gaps.length > 0
-        ? `Data still being cleaned: ${gaps.join(", ")} are listed as sources but are not ready for regional numbers yet.`
+        ? `Still being cleaned: ${gaps.join(", ")} have source links, but are not ready for regional numbers yet.`
         : "All v1 indicator layers used by the selected mission are either measured or national-context signals.",
-      `The summary only uses cited public sources. It does not infer classified, private, or vendor-confidential information.`,
+      "This brief only uses cited public sources. It does not infer classified, private, or vendor-confidential information.",
     ],
     caveats: [
       ...data.methodology.caveats,

@@ -1,12 +1,12 @@
 import type { AtlasData, Indicator, Score } from "@/data/types";
 
 export const indicatorLabels: Record<keyof Score["indicators"], string> = {
-  firms: "Companies and sites",
-  labour: "Workforce",
-  rd: "Research",
-  exports: "Exports",
-  procurementSignals: "Contracts",
-  infrastructure: "Northern basics",
+  firms: "Company and site count",
+  labour: "Workforce data",
+  rd: "Research signal",
+  exports: "Export data",
+  procurementSignals: "Contract signal",
+  infrastructure: "Northern infrastructure",
 };
 
 export const indicatorOrder = Object.keys(indicatorLabels) as Array<keyof Score["indicators"]>;
@@ -51,7 +51,7 @@ export function formatIndicator(indicator: Indicator) {
   if (indicator.status === "national_context_only" && typeof indicator.nationalValue === "number") {
     return `${formatNumber(indicator.nationalValue)} ${indicator.unit} nationally`;
   }
-  if (indicator.status === "not_applicable_for_v1") return "Not applicable in v1";
+  if (indicator.status === "not_applicable_for_v1") return "Not used for this view";
   return "Data not ready yet";
 }
 
@@ -64,28 +64,28 @@ export function statusLabel(status: Indicator["status"]) {
     case "catalogued_not_normalized":
       return "Not ready";
     case "not_applicable_for_v1":
-      return "Not used";
+      return "Not used here";
   }
 }
 
 export function displayIndicatorNote(key: keyof Score["indicators"], indicator: Indicator) {
   if (indicator.status === "measured") {
-    if (key === "firms") return "Public StatCan company/site count for selected industries.";
-    return "Cleaned public data is ready for this number.";
+    if (key === "firms") return "A public StatCan count for industries that match this capability.";
+    return "This public data has been cleaned into a usable number.";
   }
 
   if (indicator.status === "national_context_only") {
-    if (key === "rd") return "Canada-wide research count. Regional split comes later.";
+    if (key === "rd") return "A Canada-wide research count. Provincial and territorial splits come later.";
     if (key === "procurementSignals") return "Public contract sources are listed. Regional matching comes later.";
-    return "Canada-wide signal. Regional split comes later.";
+    return "A Canada-wide signal. Regional splits come later.";
   }
 
-  if (indicator.status === "not_applicable_for_v1") return "This layer is not used for this search area yet.";
+  if (indicator.status === "not_applicable_for_v1") return "This data layer is not used for the selected capability yet.";
 
-  if (key === "labour") return "Workforce source is listed, but not cleaned into regional numbers yet.";
-  if (key === "exports") return "Trade source is listed, but not cleaned into regional numbers yet.";
+  if (key === "labour") return "The workforce source is listed, but not cleaned into regional numbers yet.";
+  if (key === "exports") return "The trade source is listed, but not cleaned into regional numbers yet.";
   if (key === "infrastructure") return "Broadband and energy sources are listed for future northern checks.";
-  return "Source is listed, but not cleaned into a usable number yet.";
+  return "The source is listed, but not cleaned into a usable number yet.";
 }
 
 export function scoreTone(score: number) {

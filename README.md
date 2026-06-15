@@ -1,6 +1,6 @@
 # Canada Capability Atlas
 
-Canada Capability Atlas helps people find Canadian companies, public contracts, research, and news signals tied to strategic defence and dual-use needs. It shows where public evidence is strongest, what sources support it, and what data is still being cleaned.
+Canada Capability Atlas helps people find public evidence of Canadian companies, research, contracts, and infrastructure tied to strategic defence and dual-use needs. It is a source-backed website for discovery: choose a capability need, compare provinces and territories, open the cited sources, and see what data still needs cleaning.
 
 ## Stack
 

@@ -58,10 +58,19 @@ const regionLayout: Record<string, { x: number; y: number; w: number; h: number 
 
 const northRegionIds = new Set(["CA-YT", "CA-NT", "CA-NU", "CA-NL"]);
 
-const searchAreaBlurb: Record<string, string> = {
-  "arctic-isr-drones": "Drones, sensors, satellites, and Arctic monitoring",
-  "secure-communications": "Secure networks, cyber tools, cloud, chips, and command systems",
-  "naval-autonomy": "Autonomous ships, underwater systems, sensors, and marine engineering",
+const capabilityGuidance: Record<string, { plain: string; useWhen: string }> = {
+  "arctic-isr-drones": {
+    plain: "Drone, sensor, satellite, and Arctic monitoring signals.",
+    useWhen: "Use this to look for public evidence of drones, sensors, satellites, and Arctic monitoring.",
+  },
+  "secure-communications": {
+    plain: "Secure network, cyber, cloud, chip, and command-system signals.",
+    useWhen: "Use this to look for public evidence of secure networks, cyber tools, cloud, chips, and command systems.",
+  },
+  "naval-autonomy": {
+    plain: "Autonomous ship, underwater system, naval sensor, and marine engineering signals.",
+    useWhen: "Use this to look for public evidence of autonomous ships, underwater systems, naval sensors, and marine engineering.",
+  },
 };
 
 function regionFill(score: number, selected: boolean) {
@@ -127,8 +136,23 @@ export function AtlasDashboard({ data, sources }: Props) {
   return (
     <div className="atlas-shell">
       <aside className="left-rail">
+        <div className="rail-section about-rail">
+          <div className="eyebrow"><ShieldCheck size={13} /> About the Atlas</div>
+          <h2>A public map of Canadian capability.</h2>
+          <p>
+            This site brings public data into one place so you can see where Canada has visible companies,
+            research, contracts, and infrastructure connected to defence and dual-use needs.
+          </p>
+          <ul className="plain-list">
+            <li>Find places worth investigating.</li>
+            <li>Open the sources behind each number.</li>
+            <li>See what data still needs cleaning.</li>
+          </ul>
+        </div>
+
         <div className="rail-section">
-          <div className="eyebrow"><ShieldCheck size={13} /> Search area</div>
+          <div className="eyebrow"><MapPinned size={13} /> What do you want to find?</div>
+          <p className="rail-help">Choose a capability need. This updates the map, rankings, numbers, and brief.</p>
           <div className="mission-list">
             {data.missions.map((item) => (
               <button
@@ -138,14 +162,15 @@ export function AtlasDashboard({ data, sources }: Props) {
                 onClick={() => selectMission(item.id)}
               >
                 <span>{item.name}</span>
-                <small>{searchAreaBlurb[item.id] ?? item.description}</small>
+                <small>{capabilityGuidance[item.id]?.useWhen ?? item.description}</small>
               </button>
             ))}
           </div>
         </div>
 
         <div className="rail-section">
-          <div className="eyebrow"><Filter size={13} /> Regions</div>
+          <div className="eyebrow"><Filter size={13} /> Narrow the region list</div>
+          <p className="rail-help">Use these filters when you want all regions, only rows with cleaned company data, or northern regions.</p>
           <div className="segmented">
             {[
               ["all", "All"],
@@ -165,17 +190,26 @@ export function AtlasDashboard({ data, sources }: Props) {
         </div>
 
         <div className="rail-section source-note">
-          <div className="eyebrow"><Database size={13} /> Data rule</div>
-          <p>Numbers come from public sources. If a data set is not cleaned yet, we say so instead of guessing.</p>
+          <div className="eyebrow"><Database size={13} /> How to read the numbers</div>
+          <p>Every number must come from a public source. If a source is listed but not cleaned yet, the site says so instead of guessing.</p>
         </div>
       </aside>
 
       <main className="atlas-main">
         <section className="hero-band">
           <div>
-            <div className="eyebrow"><MapPinned size={13} /> Find suppliers, sources, and signals</div>
-            <h1>{mission.name}</h1>
-            <p>{searchAreaBlurb[mission.id]}. Compare regions, open the source list, and see what data still needs review.</p>
+            <div className="eyebrow"><MapPinned size={13} /> What this site helps you do</div>
+            <h1>Find Canadian capability by need and region.</h1>
+            <p>
+              Canada Capability Atlas helps researchers, builders, and policy teams find public evidence of
+              companies, research, contracts, and infrastructure tied to strategic needs. It is for discovery
+              and source-checking, not procurement advice.
+            </p>
+            <div className="current-focus">
+              <span>Currently exploring</span>
+              <strong>{mission.name}</strong>
+              <p>{capabilityGuidance[mission.id]?.plain ?? mission.description}</p>
+            </div>
           </div>
           <div className="hero-meta">
             <span>Artifact {data.methodology.version}</span>
@@ -186,46 +220,46 @@ export function AtlasDashboard({ data, sources }: Props) {
         <section className="help-strip" aria-label="How to use this resource">
           <div>
             <span>1</span>
-            <strong>Pick a search area</strong>
-            <p>Start with a strategic need, like secure communications or naval autonomy.</p>
+            <strong>Choose a capability need</strong>
+            <p>Pick the technology or industrial area you want to investigate.</p>
           </div>
           <div>
             <span>2</span>
-            <strong>Compare regions</strong>
-            <p>See where public company, research, and source evidence is strongest.</p>
+            <strong>Compare places</strong>
+            <p>Click a province or territory to see its public evidence score.</p>
           </div>
           <div>
             <span>3</span>
-            <strong>Check the sources</strong>
-            <p>Open the cited sources and see which data still needs cleaning.</p>
+            <strong>Check the evidence</strong>
+            <p>Open source links and note which data layers are still being cleaned.</p>
           </div>
         </section>
 
         <section className="summary-grid">
           <MetricCard
             icon={<Gauge size={18} />}
-            label="Strength score"
+            label="Public evidence score"
             value={`${selectedScore.readinessScore}/100`}
             detail={`${selectedRegion.name}, rank #${getRank(data, mission.id, selectedRegion.id)}`}
             tone={scoreTone(selectedScore.readinessScore)}
           />
           <MetricCard
             icon={<ArrowUpRight size={18} />}
-            label="Strongest region"
+            label="Top region in this view"
             value={topRegion?.shortName ?? "N/A"}
             detail={topRegion ? `${topRegion.name} at ${topScore.readinessScore}/100` : "No region score"}
             tone="high"
           />
           <MetricCard
             icon={<BarChart3 size={18} />}
-            label="Companies/sites"
+            label="Companies and sites found"
             value={formatNumber(selectedScore.indicators.firms.value)}
             detail={displayIndicatorNote("firms", selectedScore.indicators.firms)}
             tone="medium"
           />
           <MetricCard
             icon={<Layers3 size={18} />}
-            label="Sources used"
+            label="Sources behind this view"
             value={`${selectedScore.sourceIds.length}/${sources.length}`}
             detail={`${selectedScore.confidence} confidence, ${gapIndicators(selectedScore).length} data gaps`}
             tone={confidenceTone(selectedScore.confidence)}
@@ -237,7 +271,7 @@ export function AtlasDashboard({ data, sources }: Props) {
             <div className="panel-heading">
               <div>
                 <div className="eyebrow">Map</div>
-                <h2>Where public evidence is strongest</h2>
+                <h2>Where the public evidence is strongest</h2>
               </div>
               <div className="legend">
                 <span><i className="dot dot-low" /> Watch</span>
@@ -257,8 +291,8 @@ export function AtlasDashboard({ data, sources }: Props) {
           <div className="ranking-panel">
             <div className="panel-heading compact">
               <div>
-                <div className="eyebrow">Regions</div>
-                <h2>{filteredScores.length} regions</h2>
+                <div className="eyebrow">Province and territory ranking</div>
+                <h2>Compare {filteredScores.length} places</h2>
               </div>
             </div>
             <div className="rank-list">
@@ -279,7 +313,7 @@ export function AtlasDashboard({ data, sources }: Props) {
                   </button>
                 );
               })}
-              {filteredScores.length === 0 ? <p className="empty-state">No regions match this filter. No rows are fabricated.</p> : null}
+              {filteredScores.length === 0 ? <p className="empty-state">No places match this filter. The site does not make up missing rows.</p> : null}
             </div>
           </div>
         </section>
@@ -312,7 +346,7 @@ export function AtlasDashboard({ data, sources }: Props) {
         <div className="memo-sticky">
           <div className="panel-heading compact">
             <div>
-              <div className="eyebrow"><FileText size={13} /> Plain-English summary</div>
+              <div className="eyebrow"><FileText size={13} /> Cited quick brief</div>
               <h2>{selectedRegion.name}</h2>
             </div>
             <span className={`confidence ${selectedScore.confidence.toLowerCase()}`}>{selectedScore.confidence}</span>
@@ -320,16 +354,16 @@ export function AtlasDashboard({ data, sources }: Props) {
 
           <div className="memo-preview">
             <p>
-              {selectedRegion.name} ranks #{getRank(data, mission.id, selectedRegion.id)} for {mission.name}.
-              The summary uses {selectedScore.sourceIds.length} source references plus citations for each number.
+              Generate a short brief for {selectedRegion.name} and {mission.name}. It will explain the score,
+              list what is already measured, and cite the public sources behind the numbers.
             </p>
             <dl>
               <div>
-                <dt>Ready numbers</dt>
+                <dt>Measured now</dt>
                 <dd>{measuredIndicators(selectedScore).length}</dd>
               </div>
               <div>
-                <dt>Data gaps</dt>
+                <dt>Still being cleaned</dt>
                 <dd>{gapIndicators(selectedScore).length}</dd>
               </div>
             </dl>
@@ -337,10 +371,10 @@ export function AtlasDashboard({ data, sources }: Props) {
 
           <button className="primary-action" type="button" onClick={requestMemo} disabled={memoState === "loading"}>
             {memoState === "loading" ? <Loader2 className="spin" size={16} /> : <FileText size={16} />}
-            Generate summary
+            Generate cited brief
           </button>
 
-          {memoState === "error" ? <p className="empty-state">Summary request failed. Unsupported search areas or regions are refused.</p> : null}
+          {memoState === "error" ? <p className="empty-state">Brief request failed. Unsupported capability needs or regions are refused.</p> : null}
 
           {memo ? (
             <div className="memo-output">
@@ -349,6 +383,12 @@ export function AtlasDashboard({ data, sources }: Props) {
               <ul>
                 {memo.findings.map((finding) => (
                   <li key={finding}>{finding}</li>
+                ))}
+              </ul>
+              <h4>What to keep in mind</h4>
+              <ul>
+                {memo.caveats.map((caveat) => (
+                  <li key={caveat}>{caveat}</li>
                 ))}
               </ul>
               <h4>Citations</h4>
