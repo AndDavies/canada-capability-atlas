@@ -36,19 +36,16 @@ async function upsertOrThrow(supabase, table, rows, onConflict) {
 loadLocalEnv();
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY or SUPABASE_SERVICE_ROLE_KEY.");
+  throw new Error(
+    "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY. Seeding is a server-side maintenance action and cannot use the publishable key.",
+  );
 }
-
-const globalHeaders = process.env.ATLAS_SEED_TOKEN
-  ? { "x-atlas-seed-token": process.env.ATLAS_SEED_TOKEN }
-  : undefined;
 
 const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: { persistSession: false, autoRefreshToken: false },
-  global: globalHeaders ? { headers: globalHeaders } : undefined,
 });
 
 const atlasData = readJson("src/data/generated/atlas-data.json");
