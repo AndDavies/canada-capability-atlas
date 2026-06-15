@@ -56,24 +56,24 @@ export function buildCapabilityMemo(data: AtlasData, sources: Source[], request:
   return {
     missionId: mission.id,
     regionId: region.id,
-    title: `${region.name} capability memo: ${mission.name}`,
+    title: `${region.name} summary: ${mission.name}`,
     generatedAt: data.generatedAt,
     confidence: score.confidence,
     rank,
-    summary: `${region.name} ranks #${rank} of ${data.regions.length} for ${mission.name} with a readiness score of ${score.readinessScore}/100. The strongest measured public signal in v1 is ${firmSignal}; R&D is shown as ${rdSignal}.`,
+    summary: `${region.name} ranks #${rank} of ${data.regions.length} for ${mission.name} with a strength score of ${score.readinessScore}/100. The clearest public number right now is ${firmSignal}; research is shown as ${rdSignal}.`,
     findings: [
-      `Mission fit: ${mission.description}`,
-      `Measured firm base: ${firmSignal}.`,
-      `National R&D context: ${rdSignal}.`,
+      `Search area: ${mission.description}`,
+      `Companies and sites: ${firmSignal}.`,
+      `Research: ${rdSignal}.`,
       gaps.length > 0
-        ? `Known source gaps: ${gaps.join(", ")} are catalogued but not defensibly normalized into regional values yet.`
+        ? `Data still being cleaned: ${gaps.join(", ")} are listed as sources but are not ready for regional numbers yet.`
         : "All v1 indicator layers used by the selected mission are either measured or national-context signals.",
-      `Public demand context is constrained to cited DND, CanadaBuys, Open Government, and ITB sources; no classified or vendor-confidential claims are inferred.`,
+      `The summary only uses cited public sources. It does not infer classified, private, or vendor-confidential information.`,
     ],
     caveats: [
       ...data.methodology.caveats,
-      "This memo is generated from curated retrieved facts in the local static artifact only; it is not open-ended chat output.",
-      "Low or medium confidence should be read as a source-coverage warning, not as a negative statement about actual industrial capability.",
+      "This summary uses only stored public-source facts from the Atlas database or JSON fallback.",
+      "Low or medium confidence means the public data is incomplete, not that the real-world capability is weak.",
     ],
     citations,
   };

@@ -18,7 +18,7 @@ describe("capability memo builder", () => {
     expect(memo.summary).toContain("Arctic ISR Drones");
     expect(memo.findings.length).toBeGreaterThanOrEqual(4);
     expect(memo.citations.length).toBeGreaterThan(0);
-    expect(memo.caveats.some((caveat) => caveat.includes("curated retrieved facts"))).toBe(true);
+    expect(memo.caveats.some((caveat) => caveat.includes("stored public-source facts"))).toBe(true);
   });
 
   it("refuses unsupported missions and regions", () => {

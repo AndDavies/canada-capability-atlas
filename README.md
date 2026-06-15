@@ -1,6 +1,6 @@
 # Canada Capability Atlas
 
-Canada Capability Atlas is an open-source public data explorer for Canadian defence and dual-use industrial capacity. It uses public, source-backed datasets to make capability, regional capacity, source coverage, and evidence gaps visible without implying access to classified, operational, procurement-confidential, or private company information.
+Canada Capability Atlas helps people find Canadian companies, public contracts, research, and news signals tied to strategic defence and dual-use needs. It shows where public evidence is strongest, what sources support it, and what data is still being cleaned.
 
 ## Stack
 
@@ -9,7 +9,8 @@ Canada Capability Atlas is an open-source public data explorer for Canadian defe
 - TypeScript
 - Tailwind CSS v4
 - Vitest
-- Versioned static data artifacts
+- Supabase Postgres for public read data
+- Versioned static JSON exports for transparency and fallback
 
 ## Local Development
 
@@ -29,7 +30,7 @@ pnpm validate
 
 ## Data Policy
 
-All public UI values must come from generated artifacts in `src/data/generated/` and source/provenance files in `public/data/`. If a layer has not been defensibly normalized yet, the UI shows `Not yet available` rather than a placeholder value.
+All public UI values must come from Supabase public tables or generated artifacts in `src/data/generated/`. If a layer has not been cleaned yet, the UI shows `Data not ready yet` rather than a placeholder value.
 
 ## Source Posture
 

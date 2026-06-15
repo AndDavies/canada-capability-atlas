@@ -15,7 +15,8 @@ export async function POST(request: Request) {
   }
 
   try {
-    return NextResponse.json(buildCapabilityMemo(getAtlasData(), getSources(), parsed.data));
+    const [data, sources] = await Promise.all([getAtlasData(), getSources()]);
+    return NextResponse.json(buildCapabilityMemo(data, sources, parsed.data));
   } catch (error) {
     if (error instanceof MemoInputError) {
       return NextResponse.json({ error: error.message }, { status: error.status });
