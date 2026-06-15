@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-15T12:34:40.643Z",
-  "artifactVersion": "0.1.0",
+  "generatedAt": "2026-06-15T17:12:13.673Z",
+  "artifactVersion": "0.2.0",
   "artifacts": [
     {
       "path": "src/data/generated/atlas-data.json",
@@ -11,6 +11,11 @@
       "path": "src/data/generated/sources.json",
       "records": 15,
       "description": "Source catalogue."
+    },
+    {
+      "path": "src/data/generated/atlas-data.json:evidenceItems",
+      "records": 42,
+      "description": "Published evidence observations."
     }
   ],
   "sourcePolicy": "Tier 1 official and durable public sources only for displayed metrics."

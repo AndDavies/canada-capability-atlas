@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import atlasDataJson from "@/data/generated/atlas-data.json";
 import sourcesJson from "@/data/generated/sources.json";
 import { atlasDataSchema, sourceSchema } from "@/data/types";
-import { buildCapabilityMemo, MemoInputError } from "@/lib/memo";
+import { buildCapabilityMemo, buildEvidenceBrief, evidenceBriefToMarkdown, MemoInputError } from "@/lib/memo";
 
 const atlasData = atlasDataSchema.parse(atlasDataJson);
 const sources = sourceSchema.array().parse(sourcesJson.sources);
@@ -35,5 +35,32 @@ describe("capability memo builder", () => {
         regionId: "CA-XX",
       }),
     ).toThrow(MemoInputError);
+  });
+
+  it("returns a cited evidence brief with missing layers and artifact metadata", () => {
+    const brief = buildEvidenceBrief(atlasData, sources, {
+      missionId: "naval-autonomy",
+      regionId: "CA-NS",
+    });
+
+    expect(brief.slug).toBe("naval-autonomy-nova-scotia");
+    expect(brief.title).toContain("Naval Autonomy");
+    expect(brief.title).toContain("Nova Scotia");
+    expect(brief.signalSummary.momentum).toBe("Not yet measured");
+    expect(brief.missingLayers.length).toBeGreaterThan(0);
+    expect(brief.citations.length).toBeGreaterThan(0);
+    expect(brief.artifactVersion).toBe(atlasData.methodology.version);
+  });
+
+  it("serializes evidence briefs to cited markdown", () => {
+    const brief = buildEvidenceBrief(atlasData, sources, {
+      missionId: "naval-autonomy",
+      regionId: "CA-NS",
+    });
+    const markdown = evidenceBriefToMarkdown(brief);
+
+    expect(markdown).toContain("# Naval Autonomy in Nova Scotia");
+    expect(markdown).toContain("## Citations");
+    expect(markdown).toContain("Generated from artifact version");
   });
 });

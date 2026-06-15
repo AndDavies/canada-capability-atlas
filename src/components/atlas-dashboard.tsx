@@ -1,6 +1,8 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import {
   ArrowUpRight,
   BarChart3,
@@ -8,19 +10,22 @@ import {
   FileText,
   Filter,
   Gauge,
+  Info,
   Layers3,
   Loader2,
   MapPinned,
+  Scale,
   ShieldCheck,
+  X,
 } from "lucide-react";
-import type { AtlasData, Source } from "@/data/types";
-import type { CapabilityMemo } from "@/lib/memo";
+import type { AtlasData, Score, ScoreSignal, Source } from "@/data/types";
+import type { EvidenceBrief } from "@/lib/memo";
 import {
-  confidenceTone,
   displayIndicatorNote,
   formatIndicator,
-  formatNumber,
+  formatSignalValue,
   gapIndicators,
+  getBriefSlug,
   getMission,
   getRank,
   getRegion,
@@ -30,6 +35,9 @@ import {
   measuredIndicators,
   rankScores,
   scoreTone,
+  signalLabels,
+  signalOrder,
+  signalStatusLabel,
   statusLabel,
 } from "@/lib/atlas-utils";
 
@@ -39,6 +47,7 @@ type Props = {
 };
 
 type RegionFilter = "all" | "measured" | "north";
+type SignalKey = keyof Score["signals"];
 
 const regionLayout: Record<string, { x: number; y: number; w: number; h: number }> = {
   "CA-YT": { x: 68, y: 52, w: 72, h: 58 },
@@ -58,101 +67,97 @@ const regionLayout: Record<string, { x: number; y: number; w: number; h: number 
 
 const northRegionIds = new Set(["CA-YT", "CA-NT", "CA-NU", "CA-NL"]);
 
-const capabilityGuidance: Record<string, { plain: string; useWhen: string }> = {
+const capabilityGuidance: Record<string, { question: string; plain: string; useWhen: string }> = {
   "arctic-isr-drones": {
+    question: "Where can Canada support Arctic sensing and drones?",
     plain: "Drone, sensor, satellite, and Arctic monitoring signals.",
-    useWhen: "Use this to look for public evidence of drones, sensors, satellites, and Arctic monitoring.",
+    useWhen: "Look for public evidence of drones, sensors, satellites, and Arctic monitoring.",
   },
   "secure-communications": {
+    question: "Where are secure communications signals visible?",
     plain: "Secure network, cyber, cloud, chip, and command-system signals.",
-    useWhen: "Use this to look for public evidence of secure networks, cyber tools, cloud, chips, and command systems.",
+    useWhen: "Look for public evidence of secure networks, cyber tools, cloud, chips, and command systems.",
   },
   "naval-autonomy": {
+    question: "Where could Canada build naval autonomy?",
     plain: "Autonomous ship, underwater system, naval sensor, and marine engineering signals.",
-    useWhen: "Use this to look for public evidence of autonomous ships, underwater systems, naval sensors, and marine engineering.",
+    useWhen: "Look for public evidence of autonomous ships, underwater systems, naval sensors, and marine engineering.",
   },
 };
 
-function regionFill(score: number, selected: boolean) {
+function regionFill(score: number | null, selected: boolean) {
   if (selected) return "var(--red)";
+  if (score === null) return "var(--paper)";
   if (score >= 75) return "var(--teal)";
   if (score >= 50) return "var(--green)";
   if (score >= 25) return "var(--yellow)";
   return "var(--paper)";
 }
 
+function signalTone(signal: ScoreSignal) {
+  if (signal.normalizedScore === null) return "low";
+  return scoreTone(signal.normalizedScore);
+}
+
 export function AtlasDashboard({ data, sources }: Props) {
-  const [missionId, setMissionId] = useState(data.missions[0]?.id ?? "");
-  const [regionId, setRegionId] = useState("CA-ON");
+  const initialMission = data.missions.find((mission) => mission.id === "naval-autonomy") ?? data.missions[0];
+  const [missionId, setMissionId] = useState(initialMission?.id ?? "");
+  const [regionId, setRegionId] = useState("CA-NS");
   const [filter, setFilter] = useState<RegionFilter>("all");
-  const [memo, setMemo] = useState<CapabilityMemo | null>(null);
-  const [memoState, setMemoState] = useState<"idle" | "loading" | "error">("idle");
+  const [rankSignal, setRankSignal] = useState<SignalKey>("readiness");
+  const [drawerSignal, setDrawerSignal] = useState<SignalKey | null>(null);
+  const [brief, setBrief] = useState<EvidenceBrief | null>(null);
+  const [briefState, setBriefState] = useState<"idle" | "loading" | "error">("idle");
 
   const sourceMap = useMemo(() => new Map(sources.map((source) => [source.id, source])), [sources]);
   const mission = getMission(data, missionId) ?? data.missions[0];
-  const selectedScore = getScore(data, mission.id, regionId) ?? rankScores(data, mission.id)[0];
+  const selectedScore = getScore(data, mission.id, regionId) ?? getScore(data, mission.id, "CA-NS") ?? rankScores(data, mission.id)[0];
   const selectedRegion = getRegion(data, selectedScore.regionId) ?? data.regions[0];
-  const rankedScores = rankScores(data, mission.id);
+  const rankedScores = rankScores(data, mission.id, rankSignal);
   const filteredScores = rankedScores.filter((score) => {
-    if (filter === "measured") return Number(score.indicators.firms.value ?? 0) > 0;
+    if (filter === "measured") return score.signals.scale.status === "measured" && Number(score.signals.scale.value ?? 0) > 0;
     if (filter === "north") return northRegionIds.has(score.regionId);
     return true;
   });
-  const topScore = rankedScores[0];
-  const topRegion = topScore ? getRegion(data, topScore.regionId) : undefined;
-  const maxScore = Math.max(...rankedScores.map((score) => score.readinessScore), 1);
+  const maxSignalScore = Math.max(...rankedScores.map((score) => score.signals[rankSignal].normalizedScore ?? 0), 1);
+  const selectedBriefSlug = getBriefSlug(data, mission.id, selectedRegion.id);
+  const drawer = drawerSignal ? selectedScore.signals[drawerSignal] : null;
 
-  async function requestMemo() {
-    setMemoState("loading");
-    setMemo(null);
-    const response = await fetch("/api/memo", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ missionId: mission.id, regionId: selectedScore.regionId }),
-    });
+  async function requestBrief() {
+    setBriefState("loading");
+    setBrief(null);
+    const response = await fetch(`/api/brief?missionId=${mission.id}&regionId=${selectedScore.regionId}`);
     if (!response.ok) {
-      setMemoState("error");
+      setBriefState("error");
       return;
     }
-    const payload = (await response.json()) as CapabilityMemo;
-    setMemo(payload);
-    setMemoState("idle");
+    const payload = (await response.json()) as EvidenceBrief;
+    setBrief(payload);
+    setBriefState("idle");
   }
 
   function selectMission(nextMissionId: string) {
     setMissionId(nextMissionId);
-    const nextTop = rankScores(data, nextMissionId)[0];
-    if (nextTop) setRegionId(nextTop.regionId);
-    setMemo(null);
-    setMemoState("idle");
+    const preferredRegion = nextMissionId === "naval-autonomy" ? "CA-NS" : rankScores(data, nextMissionId, rankSignal)[0]?.regionId;
+    if (preferredRegion) setRegionId(preferredRegion);
+    setBrief(null);
+    setBriefState("idle");
+    setDrawerSignal(null);
   }
 
   function selectRegion(nextRegionId: string) {
     setRegionId(nextRegionId);
-    setMemo(null);
-    setMemoState("idle");
+    setBrief(null);
+    setBriefState("idle");
+    setDrawerSignal(null);
   }
 
   return (
     <div className="atlas-shell">
-      <aside className="left-rail">
-        <div className="rail-section about-rail">
-          <div className="eyebrow"><ShieldCheck size={13} /> About the Atlas</div>
-          <h2>A public map of Canadian capability.</h2>
-          <p>
-            This site brings public data into one place so you can see where Canada has visible companies,
-            research, contracts, and infrastructure connected to defence and dual-use needs.
-          </p>
-          <ul className="plain-list">
-            <li>Find places worth investigating.</li>
-            <li>Open the sources behind each number.</li>
-            <li>See what data still needs cleaning.</li>
-          </ul>
-        </div>
-
+      <aside className="left-rail" id="explorer">
         <div className="rail-section">
-          <div className="eyebrow"><MapPinned size={13} /> What do you want to find?</div>
-          <p className="rail-help">Choose a capability need. This updates the map, rankings, numbers, and brief.</p>
+          <div className="eyebrow"><MapPinned size={13} /> Explore a capability</div>
+          <p className="rail-help">Choose the question you want the Atlas to answer. The map, rankings, signal cards, and evidence brief update together.</p>
           <div className="mission-list">
             {data.missions.map((item) => (
               <button
@@ -161,7 +166,7 @@ export function AtlasDashboard({ data, sources }: Props) {
                 type="button"
                 onClick={() => selectMission(item.id)}
               >
-                <span>{item.name}</span>
+                <span>{capabilityGuidance[item.id]?.question ?? item.name}</span>
                 <small>{capabilityGuidance[item.id]?.useWhen ?? item.description}</small>
               </button>
             ))}
@@ -169,12 +174,12 @@ export function AtlasDashboard({ data, sources }: Props) {
         </div>
 
         <div className="rail-section">
-          <div className="eyebrow"><Filter size={13} /> Narrow the region list</div>
-          <p className="rail-help">Use these filters when you want all regions, only rows with cleaned company data, or northern regions.</p>
+          <div className="eyebrow"><Filter size={13} /> Narrow regions</div>
+          <p className="rail-help">Show all places, places with measured business-location evidence, or northern regions.</p>
           <div className="segmented">
             {[
               ["all", "All"],
-              ["measured", "Ready"],
+              ["measured", "Measured"],
               ["north", "North"],
             ].map(([value, label]) => (
               <button
@@ -189,27 +194,45 @@ export function AtlasDashboard({ data, sources }: Props) {
           </div>
         </div>
 
+        <Link className="rail-section featured-brief" href="/briefs/naval-autonomy-nova-scotia">
+          <div className="eyebrow"><FileText size={13} /> Featured evidence brief</div>
+          <h2>Naval Autonomy in Nova Scotia</h2>
+          <p>
+            A flagship proof point for using the Atlas: measured public business-location evidence,
+            Canada-wide research context, missing layers, and citations in one shareable page.
+          </p>
+        </Link>
+
         <div className="rail-section source-note">
-          <div className="eyebrow"><Database size={13} /> How to read the numbers</div>
-          <p>Every number must come from a public source. If a source is listed but not cleaned yet, the site says so instead of guessing.</p>
+          <div className="eyebrow"><Database size={13} /> Source coverage</div>
+          <p>Every displayed metric must point to a public source. Missing layers are labelled by workflow stage instead of filled with guesses.</p>
+        </div>
+
+        <div className="rail-section about-rail">
+          <div className="eyebrow"><ShieldCheck size={13} /> About the Atlas</div>
+          <h2>A public map of Canadian capability.</h2>
+          <p>
+            The Atlas brings public evidence into one place so builders, researchers, and policy teams can
+            find places worth investigating and check the sources behind each signal.
+          </p>
         </div>
       </aside>
 
       <main className="atlas-main">
         <section className="hero-band">
           <div>
-            <div className="eyebrow"><MapPinned size={13} /> What this site helps you do</div>
-            <h1>Find Canadian capability by need and region.</h1>
+            <h1>Where can Canada build?</h1>
             <p>
-              Canada Capability Atlas helps researchers, builders, and policy teams find public evidence of
-              companies, research, contracts, and infrastructure tied to strategic needs. It is for discovery
-              and source-checking, not procurement advice.
+              Canada Capability Atlas maps public evidence of firms, research, talent, contracts, exports,
+              and infrastructure behind Canada&apos;s defence and dual-use industrial base.
             </p>
-            <div className="current-focus">
-              <span>Currently exploring</span>
-              <strong>{mission.name}</strong>
-              <p>{capabilityGuidance[mission.id]?.plain ?? mission.description}</p>
+            <div className="hero-actions">
+              <a className="primary-link" href="#explorer">Explore a capability</a>
+              <Link className="secondary-link" href="/methodology">View the evidence model</Link>
             </div>
+            <p className="trust-line">
+              Built from public, aggregate, source-linked data. Not procurement advice. Not classified analysis.
+            </p>
           </div>
           <div className="hero-meta">
             <span>Artifact {data.methodology.version}</span>
@@ -220,50 +243,33 @@ export function AtlasDashboard({ data, sources }: Props) {
         <section className="help-strip" aria-label="How to use this resource">
           <div>
             <span>1</span>
-            <strong>Choose a capability need</strong>
-            <p>Pick the technology or industrial area you want to investigate.</p>
+            <strong>Pick a question</strong>
+            <p>Choose a capability need such as naval autonomy or secure communications.</p>
           </div>
           <div>
             <span>2</span>
-            <strong>Compare places</strong>
-            <p>Click a province or territory to see its public evidence score.</p>
+            <strong>Compare signals</strong>
+            <p>Switch scale, density, capability signal, and source coverage to change the ranking.</p>
           </div>
           <div>
             <span>3</span>
-            <strong>Check the evidence</strong>
-            <p>Open source links and note which data layers are still being cleaned.</p>
+            <strong>Open the evidence</strong>
+            <p>Use evidence briefs and source links to see what is measured and what is missing.</p>
           </div>
         </section>
 
-        <section className="summary-grid">
-          <MetricCard
-            icon={<Gauge size={18} />}
-            label="Public evidence score"
-            value={`${selectedScore.readinessScore}/100`}
-            detail={`${selectedRegion.name}, rank #${getRank(data, mission.id, selectedRegion.id)}`}
-            tone={scoreTone(selectedScore.readinessScore)}
-          />
-          <MetricCard
-            icon={<ArrowUpRight size={18} />}
-            label="Top region in this view"
-            value={topRegion?.shortName ?? "N/A"}
-            detail={topRegion ? `${topRegion.name} at ${topScore.readinessScore}/100` : "No region score"}
-            tone="high"
-          />
-          <MetricCard
-            icon={<BarChart3 size={18} />}
-            label="Companies and sites found"
-            value={formatNumber(selectedScore.indicators.firms.value)}
-            detail={displayIndicatorNote("firms", selectedScore.indicators.firms)}
-            tone="medium"
-          />
-          <MetricCard
-            icon={<Layers3 size={18} />}
-            label="Sources behind this view"
-            value={`${selectedScore.sourceIds.length}/${sources.length}`}
-            detail={`${selectedScore.confidence} confidence, ${gapIndicators(selectedScore).length} data gaps`}
-            tone={confidenceTone(selectedScore.confidence)}
-          />
+        <section className="signal-grid" aria-label="Capability signals">
+          {signalOrder.map((key) => (
+            <SignalCard
+              key={key}
+              icon={signalIcon(key)}
+              label={signalLabels[key]}
+              signal={selectedScore.signals[key]}
+              detail={signalDetail(key, selectedScore, selectedRegion.name, mission.name, data)}
+              tone={signalTone(selectedScore.signals[key])}
+              onOpen={() => setDrawerSignal(key)}
+            />
+          ))}
         </section>
 
         <section className="map-and-rank">
@@ -271,7 +277,7 @@ export function AtlasDashboard({ data, sources }: Props) {
             <div className="panel-heading">
               <div>
                 <div className="eyebrow">Map</div>
-                <h2>Where the public evidence is strongest</h2>
+                <h2>Where the selected signal is strongest</h2>
               </div>
               <div className="legend">
                 <span><i className="dot dot-low" /> Watch</span>
@@ -279,10 +285,26 @@ export function AtlasDashboard({ data, sources }: Props) {
                 <span><i className="dot dot-high" /> Strong</span>
               </div>
             </div>
+            <p className="scale-caveat">
+              Large provinces often score higher by scale. Use density to find smaller regions with unusual concentration.
+            </p>
+            <div className="signal-tabs" aria-label="Ranking signal">
+              {(["readiness", "scale", "density", "evidenceCoverage"] as SignalKey[]).map((key) => (
+                <button
+                  key={key}
+                  className={rankSignal === key ? "active" : ""}
+                  type="button"
+                  onClick={() => setRankSignal(key)}
+                >
+                  {signalLabels[key]}
+                </button>
+              ))}
+            </div>
             <CanadaCartogram
               data={data}
-              maxScore={maxScore}
+              maxScore={maxSignalScore}
               missionId={mission.id}
+              signalKey={rankSignal}
               selectedRegionId={selectedRegion.id}
               onSelect={selectRegion}
             />
@@ -292,13 +314,15 @@ export function AtlasDashboard({ data, sources }: Props) {
             <div className="panel-heading compact">
               <div>
                 <div className="eyebrow">Province and territory ranking</div>
-                <h2>Compare {filteredScores.length} places</h2>
+                <h2>{signalLabels[rankSignal]} across {filteredScores.length} places</h2>
               </div>
             </div>
             <div className="rank-list">
               {filteredScores.map((score, index) => {
                 const region = getRegion(data, score.regionId);
                 if (!region) return null;
+                const signal = score.signals[rankSignal];
+                const width = signal.normalizedScore ?? 0;
                 return (
                   <button
                     key={score.regionId}
@@ -308,12 +332,14 @@ export function AtlasDashboard({ data, sources }: Props) {
                   >
                     <span className="rank-index">{index + 1}</span>
                     <span className="rank-name">{region.name}</span>
-                    <span className="rank-bar"><span style={{ width: `${score.readinessScore}%` }} /></span>
-                    <span className="rank-score">{score.readinessScore}</span>
+                    <span className="rank-bar"><span style={{ width: `${width}%` }} /></span>
+                    <span className="rank-score">{signal.normalizedScore ?? "NA"}</span>
                   </button>
                 );
               })}
-              {filteredScores.length === 0 ? <p className="empty-state">No places match this filter. The site does not make up missing rows.</p> : null}
+              {filteredScores.length === 0 ? (
+                <p className="empty-state">No measured rows match this filter. The source layer may be identified, parsed, or waiting for review, but the Atlas will not create placeholder rows.</p>
+              ) : null}
             </div>
           </div>
         </section>
@@ -346,54 +372,60 @@ export function AtlasDashboard({ data, sources }: Props) {
         <div className="memo-sticky">
           <div className="panel-heading compact">
             <div>
-              <div className="eyebrow"><FileText size={13} /> Cited quick brief</div>
-              <h2>{selectedRegion.name}</h2>
+              <div className="eyebrow"><FileText size={13} /> Evidence brief</div>
+              <h2>{mission.name} in {selectedRegion.name}</h2>
             </div>
             <span className={`confidence ${selectedScore.confidence.toLowerCase()}`}>{selectedScore.confidence}</span>
           </div>
 
           <div className="memo-preview">
             <p>
-              Generate a short brief for {selectedRegion.name} and {mission.name}. It will explain the score,
-              list what is already measured, and cite the public sources behind the numbers.
+              Generate a cited brief that explains what is measured, what is missing, and which source links
+              support this capability-region view.
             </p>
             <dl>
               <div>
-                <dt>Measured now</dt>
+                <dt>Measured layers</dt>
                 <dd>{measuredIndicators(selectedScore).length}</dd>
               </div>
               <div>
-                <dt>Still being cleaned</dt>
+                <dt>Missing layers</dt>
                 <dd>{gapIndicators(selectedScore).length}</dd>
               </div>
             </dl>
           </div>
 
-          <button className="primary-action" type="button" onClick={requestMemo} disabled={memoState === "loading"}>
-            {memoState === "loading" ? <Loader2 className="spin" size={16} /> : <FileText size={16} />}
-            Generate cited brief
+          <button className="primary-action" type="button" onClick={requestBrief} disabled={briefState === "loading"}>
+            {briefState === "loading" ? <Loader2 className="spin" size={16} /> : <FileText size={16} />}
+            Generate evidence brief
           </button>
 
-          {memoState === "error" ? <p className="empty-state">Brief request failed. Unsupported capability needs or regions are refused.</p> : null}
+          <Link className="secondary-action" href={`/briefs/${selectedBriefSlug}`}>
+            <ArrowUpRight size={15} />
+            Open shareable brief
+          </Link>
 
-          {memo ? (
+          {briefState === "error" ? <p className="empty-state">Evidence brief request failed. Unsupported capability-region pairs are refused.</p> : null}
+
+          {brief ? (
             <div className="memo-output">
-              <h3>{memo.title}</h3>
-              <p>{memo.summary}</p>
+              <h3>{brief.title}</h3>
+              <p>{brief.summary}</p>
+              <h4>Measured evidence</h4>
               <ul>
-                {memo.findings.map((finding) => (
+                {brief.measuredEvidence.map((finding) => (
                   <li key={finding}>{finding}</li>
                 ))}
               </ul>
-              <h4>What to keep in mind</h4>
+              <h4>Missing layers</h4>
               <ul>
-                {memo.caveats.map((caveat) => (
-                  <li key={caveat}>{caveat}</li>
+                {brief.missingLayers.map((layer) => (
+                  <li key={layer}>{layer}</li>
                 ))}
               </ul>
               <h4>Citations</h4>
               <div className="citation-list">
-                {memo.citations.map((citation) => (
+                {brief.citations.map((citation) => (
                   <a key={citation.id} href={citation.url} target="_blank" rel="noreferrer">
                     <span>{citation.title}</span>
                     <small>{citation.publisher} / Tier {citation.tier}</small>
@@ -404,43 +436,113 @@ export function AtlasDashboard({ data, sources }: Props) {
           ) : null}
         </div>
       </aside>
+
+      {drawerSignal && drawer ? (
+        <aside className="methodology-drawer" role="dialog" aria-modal="true" aria-label={`${signalLabels[drawerSignal]} methodology`}>
+          <button className="drawer-close" type="button" onClick={() => setDrawerSignal(null)} aria-label="Close methodology drawer">
+            <X size={16} />
+          </button>
+          <div className="eyebrow"><Info size={13} /> Signal methodology</div>
+          <h2>{signalLabels[drawerSignal]}</h2>
+          <dl>
+            <div><dt>Status</dt><dd>{signalStatusLabel(drawer.status)}</dd></div>
+            <div><dt>Value</dt><dd>{formatSignalValue(drawer)}</dd></div>
+            <div><dt>Rule</dt><dd>{drawer.methodology}</dd></div>
+            <div><dt>Caveat</dt><dd>{drawer.caveat}</dd></div>
+            <div><dt>Last generated</dt><dd>{new Date(data.generatedAt).toLocaleString("en-CA")}</dd></div>
+          </dl>
+          <h3>Source IDs</h3>
+          <div className="citation-list">
+            {drawer.sourceIds.length ? (
+              drawer.sourceIds.map((sourceId) => (
+                <a key={sourceId} href={sourceMap.get(sourceId)?.url ?? "#"} target="_blank" rel="noreferrer">
+                  <span>{sourceId}</span>
+                  <small>{sourceMap.get(sourceId)?.publisher ?? "Source catalogue"}</small>
+                </a>
+              ))
+            ) : (
+              <p className="empty-state">Source identified, but no measured source ID is attached to this signal yet.</p>
+            )}
+          </div>
+        </aside>
+      ) : null}
     </div>
   );
 }
 
-function MetricCard({
+function signalIcon(key: SignalKey) {
+  const icons: Record<SignalKey, ReactNode> = {
+    scale: <Scale size={18} />,
+    density: <BarChart3 size={18} />,
+    momentum: <ArrowUpRight size={18} />,
+    readiness: <Gauge size={18} />,
+    evidenceCoverage: <Layers3 size={18} />,
+  };
+  return icons[key];
+}
+
+function signalDetail(key: SignalKey, score: Score, regionName: string, missionName: string, data: AtlasData) {
+  if (key === "scale") return `${regionName}, rank #${getRank(data, score.missionId, score.regionId, "scale")} by absolute relevant business locations.`;
+  if (key === "density") return `Concentration within ${regionName}'s regional business base for ${missionName}.`;
+  if (key === "momentum") return "Contract, award, and news time-series rows are not normalized yet.";
+  if (key === "evidenceCoverage") return `${score.signals.evidenceCoverage.methodology}`;
+  return `${regionName}, rank #${getRank(data, score.missionId, score.regionId, "readiness")} on the directional capability signal.`;
+}
+
+function SignalCard({
   icon,
   label,
-  value,
+  signal,
   detail,
   tone,
+  onOpen,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
-  value: string;
+  signal: ScoreSignal;
   detail: string;
   tone: string;
+  onOpen: () => void;
 }) {
   return (
     <article className={`metric-card ${tone}`}>
-      <div className="metric-icon">{icon}</div>
+      <div className="metric-card-top">
+        <div className="metric-icon">{icon}</div>
+        <button type="button" onClick={onOpen} aria-label={`Open ${label} methodology`}>
+          <Info size={14} />
+        </button>
+      </div>
       <span>{label}</span>
-      <strong>{value}</strong>
+      <strong>{formatSignalHeadline(signal)}</strong>
       <p>{detail}</p>
     </article>
   );
+}
+
+function formatSignalHeadline(signal: ScoreSignal) {
+  if (typeof signal.value !== "number" || Number.isNaN(signal.value)) return signalStatusLabel(signal.status);
+  if (signal.unit.includes("percent")) return `${Math.round(signal.value)}%`;
+  if (signal.unit.includes("per 10,000")) return `${signal.value.toLocaleString("en-CA", { maximumFractionDigits: 2 })} per 10k`;
+  if (signal.unit.includes("index score")) return `${Math.round(signal.value)}/100`;
+  return formatNumberCompact(signal.value);
+}
+
+function formatNumberCompact(value: number) {
+  return new Intl.NumberFormat("en-CA").format(value);
 }
 
 function CanadaCartogram({
   data,
   maxScore,
   missionId,
+  signalKey,
   selectedRegionId,
   onSelect,
 }: {
   data: AtlasData;
   maxScore: number;
   missionId: string;
+  signalKey: SignalKey;
   selectedRegionId: string;
   onSelect: (regionId: string) => void;
 }) {
@@ -452,15 +554,17 @@ function CanadaCartogram({
           const layout = regionLayout[region.id];
           const score = getScore(data, missionId, region.id);
           if (!layout || !score) return null;
+          const signal = score.signals[signalKey];
+          const value = signal.normalizedScore;
           const selected = selectedRegionId === region.id;
-          const height = Math.max(10, (score.readinessScore / maxScore) * layout.h);
+          const height = Math.max(10, ((value ?? 0) / maxScore) * layout.h);
           return (
             <g
               key={region.id}
               className={`map-region ${selected ? "selected" : ""}`}
               role="button"
               tabIndex={0}
-            aria-label={`${region.name}: ${score.readinessScore} strength score`}
+              aria-label={`${region.name}: ${value ?? "not measured"} ${signalLabels[signalKey]}`}
               onClick={() => onSelect(region.id)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") onSelect(region.id);
@@ -480,14 +584,14 @@ function CanadaCartogram({
                 y={layout.y + layout.h - height}
                 width={layout.w}
                 height={height}
-                fill={regionFill(score.readinessScore, selected)}
+                fill={regionFill(value, selected)}
                 opacity={selected ? 1 : 0.82}
               />
               <text x={layout.x + layout.w / 2} y={layout.y + layout.h / 2 - 1} textAnchor="middle">
                 {region.shortName}
               </text>
               <text className="map-score" x={layout.x + layout.w / 2} y={layout.y + layout.h / 2 + 17} textAnchor="middle">
-                {score.readinessScore}
+                {value ?? "NA"}
               </text>
             </g>
           );

@@ -383,6 +383,20 @@ function sumBusinessCounts(rows, mission, regionName, latestDate) {
     .reduce((total, row) => total + Number(row.VALUE || 0), 0);
 }
 
+function sumRegionalBusinessBase(rows, regionName, latestDate) {
+  return rows
+    .filter((row) => {
+      const naics = row["North American Industry Classification System (NAICS)"]?.toLowerCase() ?? "";
+      return (
+        row.REF_DATE === latestDate &&
+        row.GEO === regionName &&
+        row["Employment size"] === "Total, with employees" &&
+        (naics === "total, all industries" || naics.includes("total, all industries"))
+      );
+    })
+    .reduce((total, row) => total + Number(row.VALUE || 0), 0);
+}
+
 function sumRdPerformers(rows, mission, latestDate) {
   return rows
     .filter(
@@ -418,8 +432,13 @@ const rawScores = missions.flatMap((mission) =>
     missionId: mission.id,
     regionId: region.id,
     firms: sumBusinessCounts(businessRows, mission, region.name, latestBusinessDate),
+    businessBase: sumRegionalBusinessBase(businessRows, region.name, latestBusinessDate),
   })),
 );
+
+for (const score of rawScores) {
+  score.density = score.businessBase > 0 ? (score.firms / score.businessBase) * 10000 : null;
+}
 
 const maxFirmsByMission = Object.fromEntries(
   missions.map((mission) => [
@@ -428,16 +447,98 @@ const maxFirmsByMission = Object.fromEntries(
   ]),
 );
 
+const maxDensityByMission = Object.fromEntries(
+  missions.map((mission) => [
+    mission.id,
+    Math.max(
+      ...rawScores
+        .filter((score) => score.missionId === mission.id && typeof score.density === "number")
+        .map((score) => score.density),
+      0,
+    ),
+  ]),
+);
+
+function buildEvidenceCoverage(indicators) {
+  const applicable = Object.values(indicators).filter((indicator) => indicator.status !== "not_applicable_for_v1");
+  const usable = applicable.filter((indicator) => indicator.status === "measured" || indicator.status === "national_context_only");
+  const sourceIds = [...new Set(usable.flatMap((indicator) => indicator.sourceIds))];
+  const value = applicable.length > 0 ? Math.round((usable.length / applicable.length) * 100) : null;
+
+  return {
+    value,
+    sourceIds,
+    usableLayers: usable.length,
+    totalLayers: applicable.length,
+  };
+}
+
 const scores = rawScores.map((rawScore) => {
   const mission = missions.find((item) => item.id === rawScore.missionId);
   if (!mission) throw new Error(`Missing mission ${rawScore.missionId}`);
   const nationalRd = missionNationalMetrics[mission.id].rdPerformers;
   const firmScore = (rawScore.firms / maxFirmsByMission[mission.id]) * 100;
+  const densityScore =
+    typeof rawScore.density === "number" && maxDensityByMission[mission.id] > 0
+      ? (rawScore.density / maxDensityByMission[mission.id]) * 100
+      : null;
   const rdScore = nationalRd > 0 ? 100 : 0;
   const sourceCoverageScore = mission.sourceIds.length >= 5 ? 100 : mission.sourceIds.length * 20;
   const readinessScore = Math.round(
     firmScore * mission.weights.firms + rdScore * mission.weights.rd + sourceCoverageScore * mission.weights.sourceCoverage,
   );
+  const indicators = {
+    firms: {
+      status: "measured",
+      value: rawScore.firms,
+      unit: "business locations with employees",
+      sourceIds: ["statcan-business-counts-33101095"],
+      note: `Sum of selected NAICS categories for ${latestBusinessDate}.`,
+    },
+    labour: {
+      status: "catalogued_not_normalized",
+      value: null,
+      unit: "persons",
+      sourceIds: ["statcan-labour-14100023"],
+      note: "Source is identified; mission-to-labour mapping has not been normalized in v1.",
+    },
+    rd: {
+      status: "national_context_only",
+      value: null,
+      nationalValue: nationalRd,
+      unit: "R&D performers",
+      sourceIds: ["statcan-rd-performers-27100049"],
+      note: `Canada-wide R&D performer signal for selected industries, ${latestRdDate}.`,
+    },
+    exports: {
+      status: "catalogued_not_normalized",
+      value: null,
+      unit: "CAD",
+      sourceIds: ["statcan-trade-12100175"],
+      note: "Trade source is identified; commodity concordance is not normalized in v1.",
+    },
+    procurementSignals: {
+      status: "national_context_only",
+      value: null,
+      unit: "public demand signals",
+      sourceIds: ["dnd-dcb-2025", "canadabuys-tenders", "canadabuys-awards", "open-contracts"],
+      note: "Public procurement sources are identified; keyword counts are not regionalized in v1.",
+    },
+    infrastructure: {
+      status: mission.id === "arctic-isr-drones" ? "catalogued_not_normalized" : "not_applicable_for_v1",
+      value: null,
+      unit: "readiness overlays",
+      sourceIds:
+        mission.id === "arctic-isr-drones"
+          ? ["nbd-broadband", "remote-energy"]
+          : ["dnd-dcb-2025", "dnd-defence-industrial-strategy"],
+      note:
+        mission.id === "arctic-isr-drones"
+          ? "Northern broadband and remote energy datasets are identified for later overlays."
+          : "No infrastructure overlay is computed for this capability in v1.",
+    },
+  };
+  const coverage = buildEvidenceCoverage(indicators);
 
   return {
     missionId: mission.id,
@@ -445,71 +546,149 @@ const scores = rawScores.map((rawScore) => {
     readinessScore,
     confidence: rawScore.firms > 0 ? "Medium" : "Low",
     sourceIds: mission.sourceIds,
-    indicators: {
-      firms: {
+    signals: {
+      scale: {
         status: "measured",
         value: rawScore.firms,
-        unit: "business locations with employees",
+        normalizedScore: Math.round(firmScore),
+        unit: "relevant business locations with employees",
         sourceIds: ["statcan-business-counts-33101095"],
-        note: `Sum of selected NAICS categories for ${latestBusinessDate}.`,
+        methodology: `Sum selected mission NAICS categories from StatCan table 33-10-1095-01 for ${latestBusinessDate}, then normalize against the largest regional count for this capability.`,
+        caveat: "Large provinces often score higher by scale. Use density to find smaller regions with unusual concentration.",
       },
-      labour: {
-        status: "catalogued_not_normalized",
-        value: null,
-        unit: "persons",
-        sourceIds: ["statcan-labour-14100023"],
-        note: "Source is catalogued; mission-to-labour mapping has not been normalized in v1.",
+      density: {
+        status: typeof rawScore.density === "number" ? "measured" : "not_yet_measured",
+        value: typeof rawScore.density === "number" ? Number(rawScore.density.toFixed(2)) : null,
+        normalizedScore: typeof densityScore === "number" ? Math.round(densityScore) : null,
+        unit: "relevant business locations per 10,000 regional business locations",
+        sourceIds: typeof rawScore.density === "number" ? ["statcan-business-counts-33101095"] : [],
+        methodology:
+          "Divide the relevant business-location count by the all-industry regional business-location base from the same StatCan table, then scale per 10,000.",
+        caveat:
+          typeof rawScore.density === "number"
+            ? "Density highlights concentration, not total capacity. Small regions can rank highly with a small absolute base."
+            : "Density is not measured because the all-industry regional denominator was not available in the source table.",
       },
-      rd: {
-        status: "national_context_only",
+      momentum: {
+        status: "not_yet_measured",
         value: null,
-        nationalValue: nationalRd,
-        unit: "R&D performers",
-        sourceIds: ["statcan-rd-performers-27100049"],
-        note: `National R&D performer signal for selected industries, ${latestRdDate}.`,
+        normalizedScore: null,
+        unit: "contract and news time-series signal",
+        sourceIds: ["canadabuys-tenders", "canadabuys-awards", "open-contracts"],
+        methodology:
+          "Momentum will be computed from reviewed contract, award, press-release, and source-update time series once those feeds are normalized.",
+        caveat: "No momentum number is displayed until reviewed time-series rows exist. The Atlas does not use placeholder growth signals.",
       },
-      exports: {
-        status: "catalogued_not_normalized",
-        value: null,
-        unit: "CAD",
-        sourceIds: ["statcan-trade-12100175"],
-        note: "Trade source is catalogued; commodity concordance is not normalized in v1.",
+      readiness: {
+        status: "measured",
+        value: readinessScore,
+        normalizedScore: readinessScore,
+        unit: "directional index score",
+        sourceIds: mission.sourceIds,
+        methodology: `Directional composite = scale signal x ${mission.weights.firms}, Canada-wide R&D context x ${mission.weights.rd}, and source coverage x ${mission.weights.sourceCoverage}.`,
+        caveat: "This is a public evidence index, not a readiness certification, procurement recommendation, or classified capability assessment.",
       },
-      procurementSignals: {
-        status: "national_context_only",
-        value: null,
-        unit: "public demand signals",
-        sourceIds: ["dnd-dcb-2025", "canadabuys-tenders", "canadabuys-awards", "open-contracts"],
-        note: "Public procurement sources are catalogued; keyword counts are not regionalized in v1.",
-      },
-      infrastructure: {
-        status: mission.id === "arctic-isr-drones" ? "catalogued_not_normalized" : "not_applicable_for_v1",
-        value: null,
-        unit: "readiness overlays",
-        sourceIds:
-          mission.id === "arctic-isr-drones"
-            ? ["nbd-broadband", "remote-energy"]
-            : ["dnd-dcb-2025", "dnd-defence-industrial-strategy"],
-        note:
-          mission.id === "arctic-isr-drones"
-            ? "Northern broadband and remote energy datasets are catalogued for later overlays."
-            : "No infrastructure overlay is computed for this mission in v1.",
+      evidenceCoverage: {
+        status: "measured",
+        value: coverage.value,
+        normalizedScore: coverage.value,
+        unit: "percent of applicable source layers with usable evidence",
+        sourceIds: coverage.sourceIds,
+        methodology: `${coverage.usableLayers} of ${coverage.totalLayers} applicable source layers are measured or provide Canada-wide public context for this capability-region pair.`,
+        caveat: "Coverage measures what the Atlas can currently support with source-backed data. It does not prove that missing activity is absent.",
       },
     },
+    indicators,
   };
 });
+
+const sourceById = new Map(sources.map((source) => [source.id, source]));
+const evidenceItems = [
+  ...scores.map((score) => {
+    const mission = missions.find((item) => item.id === score.missionId);
+    const region = regions.find((item) => item.id === score.regionId);
+    if (!mission || !region) throw new Error(`Missing evidence item join for ${score.missionId}/${score.regionId}`);
+    const source = sourceById.get("statcan-business-counts-33101095");
+
+    return {
+      id: `${score.missionId}-${score.regionId}-business-locations`,
+      capabilityId: score.missionId,
+      regionId: score.regionId,
+      entityId: null,
+      documentId: null,
+      evidenceType: "firm_count",
+      title: `${region.name}: relevant business locations for ${mission.name}`,
+      description: `${score.signals.scale.value} business locations with employees matched the public NAICS mapping for ${mission.name}.`,
+      value: score.signals.scale.value,
+      unit: score.signals.scale.unit,
+      geography: region.name,
+      observedDate: latestBusinessDate,
+      sourceDate: latestBusinessDate,
+      confidence: score.confidence,
+      freshness: "current",
+      publicUrl: source?.url ?? "https://www150.statcan.gc.ca/n1/en/tbl/csv/33101095-eng.zip",
+      sourceIds: ["statcan-business-counts-33101095"],
+      caveat: score.signals.scale.caveat,
+      status: "published",
+      isPublic: true,
+      metadata: {
+        generatedAt,
+        businessBase: rawScores.find((raw) => raw.missionId === score.missionId && raw.regionId === score.regionId)?.businessBase ?? null,
+        taxonomyNaics: mission.taxonomy.naics,
+      },
+    };
+  }),
+  ...missions.map((mission) => {
+    const source = sourceById.get("statcan-rd-performers-27100049");
+    const rdPerformers = missionNationalMetrics[mission.id].rdPerformers;
+
+    return {
+      id: `${mission.id}-canada-rd-performers`,
+      capabilityId: mission.id,
+      regionId: null,
+      entityId: null,
+      documentId: null,
+      evidenceType: "research",
+      title: `Canada-wide R&D performer context for ${mission.name}`,
+      description: `${rdPerformers} R&D performers matched the selected public industry mapping for ${mission.name}.`,
+      value: rdPerformers,
+      unit: "R&D performers",
+      geography: "Canada",
+      observedDate: latestRdDate,
+      sourceDate: latestRdDate,
+      confidence: "Medium",
+      freshness: "current",
+      publicUrl: source?.url ?? "https://www150.statcan.gc.ca/n1/en/tbl/csv/27100049-eng.zip",
+      sourceIds: ["statcan-rd-performers-27100049"],
+      caveat: "This is Canada-wide context. Provincial and territorial R&D splits are not published in the Atlas yet.",
+      status: "published",
+      isPublic: true,
+      metadata: { generatedAt, taxonomyNaics: mission.taxonomy.naics },
+    };
+  }),
+];
+
+function enrichSource(source) {
+  return {
+    ...source,
+    freshnessStatus: "current",
+    lastCheckedAt: generatedAt,
+    licenseNote: "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+    publicUseStatus: "allowed",
+  };
+}
 
 const atlasData = {
   generatedAt,
   name: "Canada Capability Atlas",
   methodology: {
-    version: "0.1.0",
+    version: "0.2.0",
     summary:
-      "Readiness scores combine measured provincial firm-count signal, national R&D performer context, and source coverage. Non-normalized layers are shown as explicit gaps, not placeholders.",
+      "Capability signals separate scale, density, momentum, directional readiness, and evidence coverage. Non-normalized layers are shown as explicit missing layers, not placeholders.",
     caveats: [
-      "Scores are directional public-data indices, not procurement advice or claims of classified capability.",
+      "Capability signals are directional public-data indices, not procurement advice or claims of classified capability.",
       "Company-level targeting and personal contact fields are intentionally excluded.",
-      "Labour, export, and procurement layers are catalogued in v1 but not yet normalized into regional scores.",
+      "Labour, export, and regional procurement layers are source-identified but not yet normalized into region-level values.",
     ],
   },
   regions,
@@ -523,6 +702,7 @@ const atlasData = {
     };
   }),
   scores,
+  evidenceItems,
 };
 
 const manifest = {
@@ -531,12 +711,13 @@ const manifest = {
   artifacts: [
     { path: "src/data/generated/atlas-data.json", records: scores.length, description: "Mission, region, and score data." },
     { path: "src/data/generated/sources.json", records: sources.length, description: "Source catalogue." },
+    { path: "src/data/generated/atlas-data.json:evidenceItems", records: evidenceItems.length, description: "Published evidence observations." },
   ],
   sourcePolicy: "Tier 1 official and durable public sources only for displayed metrics.",
 };
 
 writeFileSync(join(generatedDir, "atlas-data.json"), `${JSON.stringify(atlasData, null, 2)}\n`);
-writeFileSync(join(generatedDir, "sources.json"), `${JSON.stringify({ generatedAt, sources }, null, 2)}\n`);
+writeFileSync(join(generatedDir, "sources.json"), `${JSON.stringify({ generatedAt, sources: sources.map(enrichSource) }, null, 2)}\n`);
 writeFileSync(join(publicDataDir, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
 
 rmSync(cacheDir, { recursive: true, force: true });

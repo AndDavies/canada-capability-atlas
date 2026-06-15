@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { Code2, Database, FileText, MapPinned } from "lucide-react";
+import { BookOpen, Database, FileText, Layers3, MapPinned, Scale } from "lucide-react";
 
 const links = [
   { href: "/", label: "Explore", icon: MapPinned },
-  { href: "/methodology", label: "How it works", icon: FileText },
-  { href: "/sources", label: "Data sources", icon: Database },
+  { href: "/capabilities", label: "Capabilities", icon: Layers3 },
+  { href: "/regions", label: "Regions", icon: MapPinned },
+  { href: "/methodology", label: "Evidence model", icon: FileText },
+  { href: "/evidence", label: "Evidence", icon: Scale },
+  { href: "/briefs/naval-autonomy-nova-scotia", label: "Evidence briefs", icon: BookOpen },
 ] as const;
 
 export function SiteHeader() {
@@ -27,11 +30,11 @@ export function SiteHeader() {
         </nav>
         <Link
           className="nav-link"
-          href="/sources"
-          aria-label="Open the public source list"
+          href="/data-library"
+          aria-label="Open the data library"
         >
-          <Code2 size={15} strokeWidth={1.8} />
-          <span className="hidden md:inline">Source list</span>
+          <Database size={15} strokeWidth={1.8} />
+          <span className="hidden md:inline">Data library</span>
         </Link>
       </div>
     </header>

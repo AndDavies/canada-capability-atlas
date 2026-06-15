@@ -3,7 +3,7 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import atlasDataJson from "@/data/generated/atlas-data.json";
 import sourcesJson from "@/data/generated/sources.json";
-import { atlasDataSchema, sourceSchema, type AtlasData, type Source } from "@/data/types";
+import { atlasDataSchema, evidenceItemSchema, sourceSchema, type AtlasData, type EvidenceItem, type Source } from "@/data/types";
 
 type SourceRow = {
   id: string;
@@ -14,6 +14,10 @@ type SourceRow = {
   tier: number;
   cadence: string;
   use_text: string;
+  freshness_status: "current" | "stale" | "unknown" | "not_checked" | null;
+  last_checked_at: string | null;
+  license_note: string | null;
+  public_use_status: "allowed" | "restricted" | "unknown" | null;
 };
 
 type RegionRow = {
@@ -41,8 +45,33 @@ type RegionScoreRow = {
   strength_score: number;
   confidence: "Low" | "Medium" | "High";
   source_ids: string[];
+  signals: unknown;
   indicators: unknown;
   generated_at: string;
+};
+
+type EvidenceItemRow = {
+  id: string;
+  capability_area_id: string;
+  region_id: string | null;
+  entity_id: number | null;
+  document_id: number | null;
+  evidence_type: EvidenceItem["evidenceType"];
+  title: string;
+  description: string;
+  value: number | null;
+  unit: string | null;
+  geography: string;
+  observed_date: string | null;
+  source_date: string | null;
+  confidence: "Low" | "Medium" | "High";
+  freshness: "current" | "stale" | "unknown" | "not_checked";
+  public_url: string;
+  source_ids: string[];
+  caveat: string;
+  status: "draft" | "review" | "published" | "archived";
+  is_public: boolean;
+  metadata: Record<string, unknown>;
 };
 
 export type DataStats = {
@@ -52,6 +81,7 @@ export type DataStats = {
   regions: number;
   searchAreas: number;
   regionScores: number;
+  evidenceItems: number;
   companies: number;
   pressReleases: number;
   procurementNotices: number;
@@ -92,6 +122,36 @@ function mapSource(row: SourceRow): Source {
     tier: row.tier,
     cadence: row.cadence,
     use: row.use_text,
+    freshnessStatus: row.freshness_status ?? "unknown",
+    lastCheckedAt: row.last_checked_at,
+    licenseNote: row.license_note ?? "Public Government of Canada or source-publisher terms apply.",
+    publicUseStatus: row.public_use_status ?? "allowed",
+  };
+}
+
+function mapEvidenceItem(row: EvidenceItemRow): EvidenceItem {
+  return {
+    id: row.id,
+    capabilityId: row.capability_area_id,
+    regionId: row.region_id,
+    entityId: row.entity_id,
+    documentId: row.document_id,
+    evidenceType: row.evidence_type,
+    title: row.title,
+    description: row.description,
+    value: row.value,
+    unit: row.unit,
+    geography: row.geography,
+    observedDate: row.observed_date,
+    sourceDate: row.source_date,
+    confidence: row.confidence,
+    freshness: row.freshness,
+    publicUrl: row.public_url,
+    sourceIds: row.source_ids,
+    caveat: row.caveat,
+    status: row.status,
+    isPublic: row.is_public,
+    metadata: row.metadata ?? {},
   };
 }
 
@@ -99,8 +159,7 @@ async function getSupabaseAtlasData(): Promise<AtlasData | null> {
   const supabase = getSupabaseClient();
   if (!supabase) return null;
 
-  const [sourcesResult, regionsResult, areasResult, scoresResult] = await Promise.all([
-    supabase.from("sources").select("id,title,publisher,url,source_type,tier,cadence,use_text").order("id"),
+  const [regionsResult, areasResult, scoresResult, evidenceResult] = await Promise.all([
     supabase.from("regions").select("id,name,short_name,dguid").order("id"),
     supabase
       .from("capability_areas")
@@ -108,21 +167,29 @@ async function getSupabaseAtlasData(): Promise<AtlasData | null> {
       .order("id"),
     supabase
       .from("region_scores")
-      .select("capability_area_id,region_id,strength_score,confidence,source_ids,indicators,generated_at")
+      .select("capability_area_id,region_id,strength_score,confidence,source_ids,signals,indicators,generated_at")
       .order("capability_area_id"),
+    supabase
+      .from("evidence_items")
+      .select(
+        "id,capability_area_id,region_id,entity_id,document_id,evidence_type,title,description,value,unit,geography,observed_date,source_date,confidence,freshness,public_url,source_ids,caveat,status,is_public,metadata",
+      )
+      .eq("status", "published")
+      .eq("is_public", true)
+      .order("id"),
   ]);
 
-  if (sourcesResult.error || regionsResult.error || areasResult.error || scoresResult.error) return null;
+  if (regionsResult.error || areasResult.error || scoresResult.error || evidenceResult.error) return null;
 
-  const sources = (sourcesResult.data ?? []) as SourceRow[];
   const regions = (regionsResult.data ?? []) as RegionRow[];
   const areas = (areasResult.data ?? []) as CapabilityAreaRow[];
   const scores = (scoresResult.data ?? []) as RegionScoreRow[];
+  const evidenceItems = (evidenceResult.data ?? []) as EvidenceItemRow[];
   const staticData = getStaticAtlasData();
   const missionOrder = new Map(staticData.missions.map((mission, index) => [mission.id, index]));
   const generatedAt = scores[0]?.generated_at ?? staticData.generatedAt;
 
-  return atlasDataSchema.parse({
+  const payload = {
     generatedAt,
     name: staticData.name,
     methodology: staticData.methodology,
@@ -151,10 +218,14 @@ async function getSupabaseAtlasData(): Promise<AtlasData | null> {
       readinessScore: score.strength_score,
       confidence: score.confidence,
       sourceIds: score.source_ids,
+      signals: score.signals,
       indicators: score.indicators,
     })),
-    _sources: sources.map(mapSource),
-  });
+    evidenceItems: evidenceItems.map(mapEvidenceItem),
+  };
+
+  const parsed = atlasDataSchema.safeParse(payload);
+  return parsed.success ? parsed.data : null;
 }
 
 async function getSupabaseSources(): Promise<Source[] | null> {
@@ -163,11 +234,12 @@ async function getSupabaseSources(): Promise<Source[] | null> {
 
   const { data, error } = await supabase
     .from("sources")
-    .select("id,title,publisher,url,source_type,tier,cadence,use_text")
+    .select("id,title,publisher,url,source_type,tier,cadence,use_text,freshness_status,last_checked_at,license_note,public_use_status")
     .order("title");
 
   if (error) return null;
-  return sourceSchema.array().parse(((data ?? []) as SourceRow[]).map(mapSource));
+  const parsed = sourceSchema.array().safeParse(((data ?? []) as SourceRow[]).map(mapSource));
+  return parsed.success ? parsed.data : null;
 }
 
 async function countTable(table: string): Promise<number | null> {
@@ -187,15 +259,20 @@ export async function getSources(): Promise<Source[]> {
   return (await getSupabaseSources()) ?? getStaticSources();
 }
 
+export async function getEvidenceItems(): Promise<EvidenceItem[]> {
+  return evidenceItemSchema.array().parse((await getAtlasData()).evidenceItems);
+}
+
 export async function getSourceMap(): Promise<Map<string, Source>> {
   return new Map((await getSources()).map((source) => [source.id, source]));
 }
 
 export async function getDataStats(): Promise<DataStats> {
-  const [atlasData, sources, documents, companies, pressReleases, procurementNotices] = await Promise.all([
+  const [atlasData, sources, documents, evidenceItems, companies, pressReleases, procurementNotices] = await Promise.all([
     getAtlasData(),
     getSources(),
     countTable("documents"),
+    countTable("evidence_items"),
     countTable("entities"),
     countTable("press_releases"),
     countTable("procurement_notices"),
@@ -208,6 +285,7 @@ export async function getDataStats(): Promise<DataStats> {
     regions: atlasData.regions.length,
     searchAreas: atlasData.missions.length,
     regionScores: atlasData.scores.length,
+    evidenceItems: evidenceItems ?? atlasData.evidenceItems.length,
     companies: companies ?? 0,
     pressReleases: pressReleases ?? 0,
     procurementNotices: procurementNotices ?? 0,

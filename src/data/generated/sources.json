@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-15T12:34:40.643Z",
+  "generatedAt": "2026-06-15T17:12:13.673Z",
   "sources": [
     {
       "id": "statcan-wds",
@@ -9,7 +9,11 @@
       "sourceType": "official_api",
       "tier": 1,
       "cadence": "business-day",
-      "use": "Discovery and update metadata for StatCan public tables."
+      "use": "Discovery and update metadata for StatCan public tables.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "statcan-business-counts-33101095",
@@ -19,7 +23,11 @@
       "sourceType": "official_csv",
       "tier": 1,
       "cadence": "semi-annual",
-      "use": "Provincial firm-count signal by NAICS."
+      "use": "Provincial firm-count signal by NAICS.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "statcan-rd-performers-27100049",
@@ -29,7 +37,11 @@
       "sourceType": "official_csv",
       "tier": 1,
       "cadence": "annual",
-      "use": "National R&D performer signal by industry."
+      "use": "National R&D performer signal by industry.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "statcan-labour-14100023",
@@ -39,7 +51,11 @@
       "sourceType": "official_csv",
       "tier": 1,
       "cadence": "annual",
-      "use": "Catalogued for future labour normalization; not displayed as a computed regional value in v1."
+      "use": "Catalogued for future labour normalization; not displayed as a computed regional value in v1.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "statcan-trade-12100175",
@@ -49,7 +65,11 @@
       "sourceType": "official_csv",
       "tier": 1,
       "cadence": "monthly",
-      "use": "Catalogued for future export normalization; not displayed as a computed regional value in v1."
+      "use": "Catalogued for future export normalization; not displayed as a computed regional value in v1.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "statcan-gdp-36100711",
@@ -59,7 +79,11 @@
       "sourceType": "official_csv",
       "tier": 1,
       "cadence": "annual",
-      "use": "Catalogued for future provincial industry output normalization."
+      "use": "Catalogued for future provincial industry output normalization.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "dnd-dcb-2025",
@@ -69,7 +93,11 @@
       "sourceType": "official_html",
       "tier": 1,
       "cadence": "annual",
-      "use": "Public capability taxonomy and demand-signal context."
+      "use": "Public capability taxonomy and demand-signal context.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "dnd-defence-industrial-strategy",
@@ -79,7 +107,11 @@
       "sourceType": "official_html",
       "tier": 1,
       "cadence": "policy-update",
-      "use": "Public sovereign capability categories and strategic rationale."
+      "use": "Public sovereign capability categories and strategic rationale.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "canadabuys-tenders",
@@ -89,7 +121,11 @@
       "sourceType": "official_csv",
       "tier": 1,
       "cadence": "daily",
-      "use": "Procurement demand signal; catalogued before keyword normalization."
+      "use": "Procurement demand signal; catalogued before keyword normalization.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "canadabuys-awards",
@@ -99,7 +135,11 @@
       "sourceType": "official_csv",
       "tier": 1,
       "cadence": "daily",
-      "use": "Award history signal; catalogued before buyer/vendor normalization."
+      "use": "Award history signal; catalogued before buyer/vendor normalization.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "open-contracts",
@@ -109,7 +149,11 @@
       "sourceType": "official_dataset",
       "tier": 1,
       "cadence": "quarterly",
-      "use": "Broader federal contract history."
+      "use": "Broader federal contract history.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "itb-policy",
@@ -119,7 +163,11 @@
       "sourceType": "official_html",
       "tier": 1,
       "cadence": "policy-update",
-      "use": "ITB policy context and Key Industrial Capabilities."
+      "use": "ITB policy context and Key Industrial Capabilities.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "itb-obligations",
@@ -129,7 +177,11 @@
       "sourceType": "official_html_table",
       "tier": 1,
       "cadence": "annual",
-      "use": "Public ITB project/obligation context; personal contact fields are intentionally excluded from this app."
+      "use": "Public ITB project/obligation context; personal contact fields are intentionally excluded from this app.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "nbd-broadband",
@@ -139,7 +191,11 @@
       "sourceType": "official_geodata",
       "tier": 1,
       "cadence": "dataset-update",
-      "use": "Catalogued for northern readiness overlays."
+      "use": "Catalogued for northern readiness overlays.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     },
     {
       "id": "remote-energy",
@@ -149,7 +205,11 @@
       "sourceType": "official_geodata",
       "tier": 1,
       "cadence": "dataset-update",
-      "use": "Catalogued for northern energy readiness overlays."
+      "use": "Catalogued for northern energy readiness overlays.",
+      "freshnessStatus": "current",
+      "lastCheckedAt": "2026-06-15T17:12:13.673Z",
+      "licenseNote": "Public Government of Canada or source-publisher terms apply. Cite and review source terms before reuse.",
+      "publicUseStatus": "allowed"
     }
   ]
 }

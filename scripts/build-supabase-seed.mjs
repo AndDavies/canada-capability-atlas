@@ -26,6 +26,10 @@ function sqlNumber(value) {
   return String(Number(value));
 }
 
+function sqlBoolean(value) {
+  return value ? "true" : "false";
+}
+
 function sqlTimestamp(value) {
   return `${sqlString(value)}::timestamptz`;
 }
@@ -51,8 +55,23 @@ const chunks = [
 
 for (const source of sourceData.sources) {
   chunks.push(`
-insert into public.sources (id, title, publisher, url, source_type, tier, cadence, use_text)
-values (${sqlString(source.id)}, ${sqlString(source.title)}, ${sqlString(source.publisher)}, ${sqlString(source.url)}, ${sqlString(source.sourceType)}, ${sqlNumber(source.tier)}, ${sqlString(source.cadence)}, ${sqlString(source.use)})
+insert into public.sources (
+  id, title, publisher, url, source_type, tier, cadence, use_text, freshness_status, last_checked_at, license_note, public_use_status
+)
+values (
+  ${sqlString(source.id)},
+  ${sqlString(source.title)},
+  ${sqlString(source.publisher)},
+  ${sqlString(source.url)},
+  ${sqlString(source.sourceType)},
+  ${sqlNumber(source.tier)},
+  ${sqlString(source.cadence)},
+  ${sqlString(source.use)},
+  ${sqlString(source.freshnessStatus)},
+  ${sqlTimestamp(source.lastCheckedAt)},
+  ${sqlString(source.licenseNote)},
+  ${sqlString(source.publicUseStatus)}
+)
 on conflict (id) do update set
   title = excluded.title,
   publisher = excluded.publisher,
@@ -61,6 +80,10 @@ on conflict (id) do update set
   tier = excluded.tier,
   cadence = excluded.cadence,
   use_text = excluded.use_text,
+  freshness_status = excluded.freshness_status,
+  last_checked_at = excluded.last_checked_at,
+  license_note = excluded.license_note,
+  public_use_status = excluded.public_use_status,
   updated_at = now();
 
 insert into public.documents (source_id, title, url, publisher, document_type, summary, content_hash, status, is_public, metadata)
@@ -124,7 +147,7 @@ on conflict (id) do update set
 for (const score of atlasData.scores) {
   chunks.push(`
 insert into public.region_scores (
-  capability_area_id, region_id, strength_score, confidence, source_ids, indicators, generated_at
+  capability_area_id, region_id, strength_score, confidence, source_ids, signals, indicators, generated_at
 )
 values (
   ${sqlString(score.missionId)},
@@ -132,6 +155,7 @@ values (
   ${sqlNumber(score.readinessScore)},
   ${sqlString(score.confidence)},
   ${sqlTextArray(score.sourceIds)},
+  ${sqlJson(score.signals)},
   ${sqlJson(score.indicators)},
   ${sqlTimestamp(atlasData.generatedAt)}
 )
@@ -139,8 +163,81 @@ on conflict (capability_area_id, region_id) do update set
   strength_score = excluded.strength_score,
   confidence = excluded.confidence,
   source_ids = excluded.source_ids,
+  signals = excluded.signals,
   indicators = excluded.indicators,
   generated_at = excluded.generated_at,
+  updated_at = now();`);
+}
+
+for (const item of atlasData.evidenceItems) {
+  chunks.push(`
+insert into public.evidence_items (
+  id,
+  capability_area_id,
+  region_id,
+  entity_id,
+  document_id,
+  evidence_type,
+  title,
+  description,
+  value,
+  unit,
+  geography,
+  observed_date,
+  source_date,
+  confidence,
+  freshness,
+  public_url,
+  source_ids,
+  caveat,
+  status,
+  is_public,
+  metadata
+)
+values (
+  ${sqlString(item.id)},
+  ${sqlString(item.capabilityId)},
+  ${sqlString(item.regionId)},
+  ${sqlNumber(item.entityId)},
+  ${sqlNumber(item.documentId)},
+  ${sqlString(item.evidenceType)},
+  ${sqlString(item.title)},
+  ${sqlString(item.description)},
+  ${sqlNumber(item.value)},
+  ${sqlString(item.unit)},
+  ${sqlString(item.geography)},
+  ${sqlString(item.observedDate)},
+  ${sqlString(item.sourceDate)},
+  ${sqlString(item.confidence)},
+  ${sqlString(item.freshness)},
+  ${sqlString(item.publicUrl)},
+  ${sqlTextArray(item.sourceIds)},
+  ${sqlString(item.caveat)},
+  ${sqlString(item.status)},
+  ${sqlBoolean(item.isPublic)},
+  ${sqlJson(item.metadata)}
+)
+on conflict (id) do update set
+  capability_area_id = excluded.capability_area_id,
+  region_id = excluded.region_id,
+  entity_id = excluded.entity_id,
+  document_id = excluded.document_id,
+  evidence_type = excluded.evidence_type,
+  title = excluded.title,
+  description = excluded.description,
+  value = excluded.value,
+  unit = excluded.unit,
+  geography = excluded.geography,
+  observed_date = excluded.observed_date,
+  source_date = excluded.source_date,
+  confidence = excluded.confidence,
+  freshness = excluded.freshness,
+  public_url = excluded.public_url,
+  source_ids = excluded.source_ids,
+  caveat = excluded.caveat,
+  status = excluded.status,
+  is_public = excluded.is_public,
+  metadata = excluded.metadata,
   updated_at = now();`);
 }
 
@@ -151,8 +248,8 @@ values (
   'succeeded',
   ${sqlTimestamp(atlasData.generatedAt)},
   now(),
-  ${sqlNumber(atlasData.scores.length + sourceData.sources.length + atlasData.regions.length + atlasData.missions.length)},
-  ${sqlNumber(atlasData.scores.length + sourceData.sources.length + atlasData.regions.length + atlasData.missions.length)},
+  ${sqlNumber(atlasData.scores.length + atlasData.evidenceItems.length + sourceData.sources.length + atlasData.regions.length + atlasData.missions.length)},
+  ${sqlNumber(atlasData.scores.length + atlasData.evidenceItems.length + sourceData.sources.length + atlasData.regions.length + atlasData.missions.length)},
   ${sqlJson({ generatedAt: atlasData.generatedAt, artifactVersion: atlasData.methodology.version })}
 );
 

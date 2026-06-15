@@ -74,6 +74,10 @@ const sources = sourceData.sources.map((source) => ({
   tier: source.tier,
   cadence: source.cadence,
   use_text: source.use,
+  freshness_status: source.freshnessStatus,
+  last_checked_at: source.lastCheckedAt,
+  license_note: source.licenseNote,
+  public_use_status: source.publicUseStatus,
 }));
 
 const documents = sourceData.sources.map((source) => ({
@@ -116,8 +120,33 @@ const regionScores = atlasData.scores.map((score) => ({
   strength_score: score.readinessScore,
   confidence: score.confidence,
   source_ids: score.sourceIds,
+  signals: score.signals,
   indicators: score.indicators,
   generated_at: atlasData.generatedAt,
+}));
+
+const evidenceItems = atlasData.evidenceItems.map((item) => ({
+  id: item.id,
+  capability_area_id: item.capabilityId,
+  region_id: item.regionId,
+  entity_id: item.entityId,
+  document_id: item.documentId,
+  evidence_type: item.evidenceType,
+  title: item.title,
+  description: item.description,
+  value: item.value,
+  unit: item.unit,
+  geography: item.geography,
+  observed_date: item.observedDate,
+  source_date: item.sourceDate,
+  confidence: item.confidence,
+  freshness: item.freshness,
+  public_url: item.publicUrl,
+  source_ids: item.sourceIds,
+  caveat: item.caveat,
+  status: item.status,
+  is_public: item.isPublic,
+  metadata: item.metadata,
 }));
 
 await upsertOrThrow(supabase, "sources", sources, "id");
@@ -125,3 +154,4 @@ await upsertOrThrow(supabase, "documents", documents, "url");
 await upsertOrThrow(supabase, "regions", regions, "id");
 await upsertOrThrow(supabase, "capability_areas", capabilityAreas, "id");
 await upsertOrThrow(supabase, "region_scores", regionScores, "capability_area_id,region_id");
+await upsertOrThrow(supabase, "evidence_items", evidenceItems, "id");
