@@ -1,0 +1,3244 @@
+{
+  "generatedAt": "2026-06-15T12:34:40.643Z",
+  "name": "Canada Capability Atlas",
+  "methodology": {
+    "version": "0.1.0",
+    "summary": "Readiness scores combine measured provincial firm-count signal, national R&D performer context, and source coverage. Non-normalized layers are shown as explicit gaps, not placeholders.",
+    "caveats": [
+      "Scores are directional public-data indices, not procurement advice or claims of classified capability.",
+      "Company-level targeting and personal contact fields are intentionally excluded.",
+      "Labour, export, and procurement layers are catalogued in v1 but not yet normalized into regional scores."
+    ]
+  },
+  "regions": [
+    {
+      "id": "CA-BC",
+      "name": "British Columbia",
+      "shortName": "BC",
+      "dguid": "2021A000259"
+    },
+    {
+      "id": "CA-AB",
+      "name": "Alberta",
+      "shortName": "AB",
+      "dguid": "2021A000248"
+    },
+    {
+      "id": "CA-SK",
+      "name": "Saskatchewan",
+      "shortName": "SK",
+      "dguid": "2021A000247"
+    },
+    {
+      "id": "CA-MB",
+      "name": "Manitoba",
+      "shortName": "MB",
+      "dguid": "2021A000246"
+    },
+    {
+      "id": "CA-ON",
+      "name": "Ontario",
+      "shortName": "ON",
+      "dguid": "2021A000235"
+    },
+    {
+      "id": "CA-QC",
+      "name": "Quebec",
+      "shortName": "QC",
+      "dguid": "2021A000224"
+    },
+    {
+      "id": "CA-NB",
+      "name": "New Brunswick",
+      "shortName": "NB",
+      "dguid": "2021A000213"
+    },
+    {
+      "id": "CA-NS",
+      "name": "Nova Scotia",
+      "shortName": "NS",
+      "dguid": "2021A000212"
+    },
+    {
+      "id": "CA-PE",
+      "name": "Prince Edward Island",
+      "shortName": "PE",
+      "dguid": "2021A000211"
+    },
+    {
+      "id": "CA-NL",
+      "name": "Newfoundland and Labrador",
+      "shortName": "NL",
+      "dguid": "2021A000210"
+    },
+    {
+      "id": "CA-YT",
+      "name": "Yukon",
+      "shortName": "YT",
+      "dguid": "2021A000260"
+    },
+    {
+      "id": "CA-NT",
+      "name": "Northwest Territories",
+      "shortName": "NT",
+      "dguid": "2021A000261"
+    },
+    {
+      "id": "CA-NU",
+      "name": "Nunavut",
+      "shortName": "NU",
+      "dguid": "2021A000262"
+    }
+  ],
+  "missions": [
+    {
+      "id": "arctic-isr-drones",
+      "name": "Arctic ISR Drones",
+      "shortName": "Arctic ISR",
+      "description": "Uncrewed aerial, space, sensor, communications, and autonomy capacity relevant to Arctic intelligence, surveillance, and reconnaissance.",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "taxonomy": {
+        "naics": [
+          "3342",
+          "3345",
+          "3364",
+          "5413",
+          "5415",
+          "5417"
+        ],
+        "educationFields": [
+          "Computer and information sciences",
+          "Engineering",
+          "Physical sciences"
+        ],
+        "tradeCommodities": [
+          "Aircraft and parts",
+          "Navigation instruments",
+          "Telecommunications equipment"
+        ],
+        "procurementKeywords": [
+          "uncrewed",
+          "drone",
+          "ISR",
+          "surveillance",
+          "Arctic",
+          "remote sensing"
+        ],
+        "dcbLabels": [
+          "Surveillance & Reconnaissance",
+          "Uncrewed and Autonomous Systems",
+          "Artificial Intelligence"
+        ]
+      },
+      "weights": {
+        "firms": 0.62,
+        "sourceCoverage": 0.2,
+        "rd": 0.18
+      },
+      "nationalSignals": [
+        {
+          "label": "Sovereign capability category",
+          "value": "Uncrewed and Autonomous Systems",
+          "sourceIds": [
+            "dnd-defence-industrial-strategy"
+          ]
+        },
+        {
+          "label": "Northern overlay",
+          "value": "Broadband and remote energy datasets catalogued, not normalized",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ]
+        }
+      ],
+      "nationalMetrics": {
+        "rdPerformers": 6624,
+        "rdReferencePeriod": "2023",
+        "businessReferencePeriod": "2025-07"
+      }
+    },
+    {
+      "id": "secure-communications",
+      "name": "Secure Communications",
+      "shortName": "Secure Comms",
+      "description": "Secure cloud, high-assurance communications, command-and-control, cybersecurity, and communications equipment capacity.",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "taxonomy": {
+        "naics": [
+          "3341",
+          "3342",
+          "3344",
+          "517",
+          "518",
+          "5415",
+          "5417"
+        ],
+        "educationFields": [
+          "Computer and information sciences",
+          "Mathematics and statistics",
+          "Engineering"
+        ],
+        "tradeCommodities": [
+          "Telecommunications equipment",
+          "Computer equipment",
+          "Semiconductors"
+        ],
+        "procurementKeywords": [
+          "secure cloud",
+          "communications",
+          "C4I",
+          "cyber",
+          "network",
+          "command and control"
+        ],
+        "dcbLabels": [
+          "C4I",
+          "Cyber, Electronic & Irregular Warfare",
+          "Artificial Intelligence"
+        ]
+      },
+      "weights": {
+        "firms": 0.64,
+        "sourceCoverage": 0.18,
+        "rd": 0.18
+      },
+      "nationalSignals": [
+        {
+          "label": "DCB public project signal",
+          "value": "11 projects listed under Artificial Intelligence",
+          "sourceIds": [
+            "dnd-dcb-2025"
+          ]
+        },
+        {
+          "label": "Sovereign capability category",
+          "value": "Digital Systems: Secure Cloud, AI, Quantum, C4I, high-assurance communications equipment",
+          "sourceIds": [
+            "dnd-defence-industrial-strategy"
+          ]
+        }
+      ],
+      "nationalMetrics": {
+        "rdPerformers": 5862,
+        "rdReferencePeriod": "2023",
+        "businessReferencePeriod": "2025-07"
+      }
+    },
+    {
+      "id": "naval-autonomy",
+      "name": "Naval Autonomy",
+      "shortName": "Naval Autonomy",
+      "description": "Autonomous surface and underwater systems, naval sensors, ship systems, engineering, and simulation capacity.",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "taxonomy": {
+        "naics": [
+          "3345",
+          "3366",
+          "5413",
+          "5415",
+          "5417"
+        ],
+        "educationFields": [
+          "Engineering",
+          "Computer and information sciences",
+          "Transportation technologies"
+        ],
+        "tradeCommodities": [
+          "Ships and boats",
+          "Marine sensors",
+          "Navigation instruments"
+        ],
+        "procurementKeywords": [
+          "naval",
+          "marine",
+          "autonomous",
+          "underwater",
+          "surface systems",
+          "sensors"
+        ],
+        "dcbLabels": [
+          "Sea",
+          "Sensors",
+          "Uncrewed and Autonomous Systems",
+          "Training and Simulation"
+        ]
+      },
+      "weights": {
+        "firms": 0.66,
+        "sourceCoverage": 0.18,
+        "rd": 0.16
+      },
+      "nationalSignals": [
+        {
+          "label": "Sovereign capability category",
+          "value": "Specialized Manufacturing: Land Vehicles / Surface Ships, including Icebreakers and Marine Systems",
+          "sourceIds": [
+            "dnd-defence-industrial-strategy"
+          ]
+        },
+        {
+          "label": "ITB relevance",
+          "value": "Public ITB policy motivates defence-sector investments and Canadian supplier development",
+          "sourceIds": [
+            "itb-policy",
+            "itb-obligations"
+          ]
+        }
+      ],
+      "nationalMetrics": {
+        "rdPerformers": 6445,
+        "rdReferencePeriod": "2023",
+        "businessReferencePeriod": "2025-07"
+      }
+    }
+  ],
+  "scores": [
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-BC",
+      "readinessScore": 53,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 13217,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-AB",
+      "readinessScore": 52,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 12475,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-SK",
+      "readinessScore": 39,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1161,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-MB",
+      "readinessScore": 40,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1366,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-ON",
+      "readinessScore": 100,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 54229,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-QC",
+      "readinessScore": 63,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 21516,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-NB",
+      "readinessScore": 39,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 827,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-NS",
+      "readinessScore": 40,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1322,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-PE",
+      "readinessScore": 38,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 240,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-NL",
+      "readinessScore": 39,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 563,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-YT",
+      "readinessScore": 38,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 75,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-NT",
+      "readinessScore": 38,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 36,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "arctic-isr-drones",
+      "regionId": "CA-NU",
+      "readinessScore": 38,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "nbd-broadband",
+        "remote-energy"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 11,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6624,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "nbd-broadband",
+            "remote-energy"
+          ],
+          "note": "Northern broadband and remote energy datasets are catalogued for later overlays."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-BC",
+      "readinessScore": 50,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 11495,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-AB",
+      "readinessScore": 48,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 9511,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-SK",
+      "readinessScore": 37,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1192,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-MB",
+      "readinessScore": 38,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1508,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-ON",
+      "readinessScore": 100,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 52806,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-QC",
+      "readinessScore": 61,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 20776,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-NB",
+      "readinessScore": 37,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 789,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-NS",
+      "readinessScore": 38,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1287,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-PE",
+      "readinessScore": 36,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 261,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-NL",
+      "readinessScore": 37,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 534,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-YT",
+      "readinessScore": 36,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 52,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-NT",
+      "readinessScore": 36,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 44,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "secure-communications",
+      "regionId": "CA-NU",
+      "readinessScore": 36,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "canadabuys-tenders",
+        "canadabuys-awards"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 15,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 5862,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-BC",
+      "readinessScore": 50,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 13193,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-AB",
+      "readinessScore": 49,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 12420,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-SK",
+      "readinessScore": 35,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1155,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-MB",
+      "readinessScore": 36,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1346,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-ON",
+      "readinessScore": 100,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 53822,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-QC",
+      "readinessScore": 60,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 21267,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-NB",
+      "readinessScore": 35,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 839,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-NS",
+      "readinessScore": 36,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 1351,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-PE",
+      "readinessScore": 34,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 248,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-NL",
+      "readinessScore": 35,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 567,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-YT",
+      "readinessScore": 34,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 75,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-NT",
+      "readinessScore": 34,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 36,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    },
+    {
+      "missionId": "naval-autonomy",
+      "regionId": "CA-NU",
+      "readinessScore": 34,
+      "confidence": "Medium",
+      "sourceIds": [
+        "statcan-business-counts-33101095",
+        "statcan-rd-performers-27100049",
+        "dnd-dcb-2025",
+        "dnd-defence-industrial-strategy",
+        "itb-policy",
+        "itb-obligations"
+      ],
+      "indicators": {
+        "firms": {
+          "status": "measured",
+          "value": 11,
+          "unit": "business locations with employees",
+          "sourceIds": [
+            "statcan-business-counts-33101095"
+          ],
+          "note": "Sum of selected NAICS categories for 2025-07."
+        },
+        "labour": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "persons",
+          "sourceIds": [
+            "statcan-labour-14100023"
+          ],
+          "note": "Source is catalogued; mission-to-labour mapping has not been normalized in v1."
+        },
+        "rd": {
+          "status": "national_context_only",
+          "value": null,
+          "nationalValue": 6445,
+          "unit": "R&D performers",
+          "sourceIds": [
+            "statcan-rd-performers-27100049"
+          ],
+          "note": "National R&D performer signal for selected industries, 2023."
+        },
+        "exports": {
+          "status": "catalogued_not_normalized",
+          "value": null,
+          "unit": "CAD",
+          "sourceIds": [
+            "statcan-trade-12100175"
+          ],
+          "note": "Trade source is catalogued; commodity concordance is not normalized in v1."
+        },
+        "procurementSignals": {
+          "status": "national_context_only",
+          "value": null,
+          "unit": "public demand signals",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "canadabuys-tenders",
+            "canadabuys-awards",
+            "open-contracts"
+          ],
+          "note": "Public procurement sources are catalogued; keyword counts are not regionalized in v1."
+        },
+        "infrastructure": {
+          "status": "not_applicable_for_v1",
+          "value": null,
+          "unit": "readiness overlays",
+          "sourceIds": [
+            "dnd-dcb-2025",
+            "dnd-defence-industrial-strategy"
+          ],
+          "note": "No infrastructure overlay is computed for this mission in v1."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-06-15T12:34:40.643Z",
+  "sources": [
+    {
+      "id": "statcan-wds",
+      "title": "Statistics Canada Web Data Service",
+      "publisher": "Statistics Canada",
+      "url": "https://www.statcan.gc.ca/en/developers/wds",
+      "sourceType": "official_api",
+      "tier": 1,
+      "cadence": "business-day",
+      "use": "Discovery and update metadata for StatCan public tables."
+    },
+    {
+      "id": "statcan-business-counts-33101095",
+      "title": "Canadian Business Counts, with employees",
+      "publisher": "Statistics Canada",
+      "url": "https://www150.statcan.gc.ca/n1/en/tbl/csv/33101095-eng.zip",
+      "sourceType": "official_csv",
+      "tier": 1,
+      "cadence": "semi-annual",
+      "use": "Provincial firm-count signal by NAICS."
+    },
+    {
+      "id": "statcan-rd-performers-27100049",
+      "title": "Counts of business enterprise research and development performers by industry group",
+      "publisher": "Statistics Canada",
+      "url": "https://www150.statcan.gc.ca/n1/en/tbl/csv/27100049-eng.zip",
+      "sourceType": "official_csv",
+      "tier": 1,
+      "cadence": "annual",
+      "use": "National R&D performer signal by industry."
+    },
+    {
+      "id": "statcan-labour-14100023",
+      "title": "Labour force characteristics by industry, annual",
+      "publisher": "Statistics Canada",
+      "url": "https://www150.statcan.gc.ca/n1/en/tbl/csv/14100023-eng.zip",
+      "sourceType": "official_csv",
+      "tier": 1,
+      "cadence": "annual",
+      "use": "Catalogued for future labour normalization; not displayed as a computed regional value in v1."
+    },
+    {
+      "id": "statcan-trade-12100175",
+      "title": "International merchandise trade by province, commodity, and principal trading partners",
+      "publisher": "Statistics Canada",
+      "url": "https://www150.statcan.gc.ca/n1/en/tbl/csv/12100175-eng.zip",
+      "sourceType": "official_csv",
+      "tier": 1,
+      "cadence": "monthly",
+      "use": "Catalogued for future export normalization; not displayed as a computed regional value in v1."
+    },
+    {
+      "id": "statcan-gdp-36100711",
+      "title": "GDP at basic prices by industry, provinces and territories",
+      "publisher": "Statistics Canada",
+      "url": "https://www150.statcan.gc.ca/n1/en/tbl/csv/36100711-eng.zip",
+      "sourceType": "official_csv",
+      "tier": 1,
+      "cadence": "annual",
+      "use": "Catalogued for future provincial industry output normalization."
+    },
+    {
+      "id": "dnd-dcb-2025",
+      "title": "Defence Capabilities Blueprint",
+      "publisher": "Department of National Defence",
+      "url": "https://apps.forces.gc.ca/en/defence-capabilities-blueprint/index.asp",
+      "sourceType": "official_html",
+      "tier": 1,
+      "cadence": "annual",
+      "use": "Public capability taxonomy and demand-signal context."
+    },
+    {
+      "id": "dnd-defence-industrial-strategy",
+      "title": "Canada's Defence Industrial Strategy",
+      "publisher": "Department of National Defence",
+      "url": "https://www.canada.ca/en/department-national-defence/corporate/reports-publications/industrial-strategy/security-sovereignty-prosperity.html",
+      "sourceType": "official_html",
+      "tier": 1,
+      "cadence": "policy-update",
+      "use": "Public sovereign capability categories and strategic rationale."
+    },
+    {
+      "id": "canadabuys-tenders",
+      "title": "CanadaBuys tender notices",
+      "publisher": "Public Services and Procurement Canada",
+      "url": "https://canadabuys.canada.ca/opendata/pub/tenderNoticeComplete-avisAppelOffresComplet.csv",
+      "sourceType": "official_csv",
+      "tier": 1,
+      "cadence": "daily",
+      "use": "Procurement demand signal; catalogued before keyword normalization."
+    },
+    {
+      "id": "canadabuys-awards",
+      "title": "CanadaBuys award notices",
+      "publisher": "Public Services and Procurement Canada",
+      "url": "https://canadabuys.canada.ca/opendata/pub/awardNoticeComplete-avisAttributionComplet.csv",
+      "sourceType": "official_csv",
+      "tier": 1,
+      "cadence": "daily",
+      "use": "Award history signal; catalogued before buyer/vendor normalization."
+    },
+    {
+      "id": "open-contracts",
+      "title": "Proactive Publication - Contracts",
+      "publisher": "Government of Canada",
+      "url": "https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b",
+      "sourceType": "official_dataset",
+      "tier": 1,
+      "cadence": "quarterly",
+      "use": "Broader federal contract history."
+    },
+    {
+      "id": "itb-policy",
+      "title": "Industrial and Technological Benefits Policy",
+      "publisher": "Innovation, Science and Economic Development Canada",
+      "url": "https://ised-isde.canada.ca/site/industrial-technological-benefits/en/industrial-and-technological-benefits",
+      "sourceType": "official_html",
+      "tier": 1,
+      "cadence": "policy-update",
+      "use": "ITB policy context and Key Industrial Capabilities."
+    },
+    {
+      "id": "itb-obligations",
+      "title": "Breakdown of current obligations by contractor",
+      "publisher": "Innovation, Science and Economic Development Canada",
+      "url": "https://ised-isde.canada.ca/site/industrial-technological-benefits/en/projects-and-obligations/report-contractor-progress/breakdown-current-obligations-contractor",
+      "sourceType": "official_html_table",
+      "tier": 1,
+      "cadence": "annual",
+      "use": "Public ITB project/obligation context; personal contact fields are intentionally excluded from this app."
+    },
+    {
+      "id": "nbd-broadband",
+      "title": "National Broadband Data",
+      "publisher": "Innovation, Science and Economic Development Canada",
+      "url": "https://open.canada.ca/data/en/dataset/00a331db-121b-445d-b119-35dbbe3eedd9",
+      "sourceType": "official_geodata",
+      "tier": 1,
+      "cadence": "dataset-update",
+      "use": "Catalogued for northern readiness overlays."
+    },
+    {
+      "id": "remote-energy",
+      "title": "Remote Communities Energy Database",
+      "publisher": "Natural Resources Canada",
+      "url": "https://open.canada.ca/data/en/dataset/0e76433c-7aeb-46dc-a019-11db10ee28dd",
+      "sourceType": "official_geodata",
+      "tier": 1,
+      "cadence": "dataset-update",
+      "use": "Catalogued for northern energy readiness overlays."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "canada-capability-atlas",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source public data explorer for Canadian defence and dual-use industrial capacity.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "validate": "pnpm test && pnpm typecheck && pnpm lint && pnpm build",
+    "data:refresh": "node scripts/refresh-data.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^1.14.0",
+    "next": "16.2.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.5"
+  },
+  "packageManager": "pnpm@10.32.1"
+}
