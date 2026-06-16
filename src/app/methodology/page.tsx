@@ -22,7 +22,7 @@ export default async function MethodologyPage() {
   return (
     <main className="content-page">
       <section className="page-hero">
-        <div className="eyebrow"><BarChart3 size={13} /> Evidence model</div>
+        <div className="eyebrow"><BarChart3 size={13} /> Methodology</div>
         <h1>How to read the Atlas.</h1>
         <p>
           The Atlas starts with public sources, cleans the parts that can be compared, and separates what is

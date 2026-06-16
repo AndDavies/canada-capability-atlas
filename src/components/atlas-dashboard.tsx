@@ -6,16 +6,12 @@ import Link from "next/link";
 import {
   ArrowUpRight,
   BarChart3,
-  Database,
   FileText,
-  Filter,
   Gauge,
   Info,
   Layers3,
   Loader2,
-  MapPinned,
   Scale,
-  ShieldCheck,
   X,
 } from "lucide-react";
 import type { AtlasData, Score, ScoreSignal, Source } from "@/data/types";
@@ -154,10 +150,11 @@ export function AtlasDashboard({ data, sources }: Props) {
 
   return (
     <div className="atlas-shell">
-      <aside className="left-rail" id="explorer">
+      <aside className="control-rail" id="explorer">
         <div className="rail-section">
-          <div className="eyebrow"><MapPinned size={13} /> Explore a capability</div>
-          <p className="rail-help">Choose the question you want the Atlas to answer. The map, rankings, signal cards, and evidence brief update together.</p>
+          <span className="rail-step">Step 1</span>
+          <h2>Pick a capability</h2>
+          <p className="rail-help">Choose the question to answer. The map, rankings, signal cards, and evidence brief all update together.</p>
           <div className="mission-list">
             {data.missions.map((item) => (
               <button
@@ -174,8 +171,9 @@ export function AtlasDashboard({ data, sources }: Props) {
         </div>
 
         <div className="rail-section">
-          <div className="eyebrow"><Filter size={13} /> Narrow regions</div>
-          <p className="rail-help">Show all places, places with measured business-location evidence, or northern regions.</p>
+          <span className="rail-step">Step 2</span>
+          <h2>Filter regions</h2>
+          <p className="rail-help">Show all places, only places with measured business-location evidence, or northern regions.</p>
           <div className="segmented">
             {[
               ["all", "All"],
@@ -193,83 +191,40 @@ export function AtlasDashboard({ data, sources }: Props) {
             ))}
           </div>
         </div>
-
-        <Link className="rail-section featured-brief" href="/briefs/naval-autonomy-nova-scotia">
-          <div className="eyebrow"><FileText size={13} /> Featured evidence brief</div>
-          <h2>Naval Autonomy in Nova Scotia</h2>
-          <p>
-            A flagship proof point for using the Atlas: measured public business-location evidence,
-            Canada-wide research context, missing layers, and citations in one shareable page.
-          </p>
-        </Link>
-
-        <div className="rail-section source-note">
-          <div className="eyebrow"><Database size={13} /> Source coverage</div>
-          <p>Every displayed metric must point to a public source. Missing layers are labelled by workflow stage instead of filled with guesses.</p>
-        </div>
-
-        <div className="rail-section about-rail">
-          <div className="eyebrow"><ShieldCheck size={13} /> About the Atlas</div>
-          <h2>A public map of Canadian capability.</h2>
-          <p>
-            The Atlas brings public evidence into one place so builders, researchers, and policy teams can
-            find places worth investigating and check the sources behind each signal.
-          </p>
-        </div>
       </aside>
 
       <main className="atlas-main">
         <section className="hero-band">
-          <div>
-            <h1>Where can Canada build?</h1>
-            <p>
-              Canada Capability Atlas maps public evidence of firms, research, talent, contracts, exports,
-              and infrastructure behind Canada&apos;s defence and dual-use industrial base.
-            </p>
-            <div className="hero-actions">
-              <a className="primary-link" href="#explorer">Explore a capability</a>
-              <Link className="secondary-link" href="/methodology">View the evidence model</Link>
-            </div>
-            <p className="trust-line">
-              Built from public, aggregate, source-linked data. Not procurement advice. Not classified analysis.
-            </p>
-          </div>
-          <div className="hero-meta">
-            <span>Artifact {data.methodology.version}</span>
-            <span>{new Date(data.generatedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })}</span>
+          <p className="hero-eyebrow">Public capability explorer</p>
+          <h1>Where can Canada build?</h1>
+          <p>
+            Find public evidence of the firms, research, talent, contracts, exports, and infrastructure
+            behind Canada&apos;s defence and dual-use industrial base.
+          </p>
+          <div className="hero-actions">
+            <a className="primary-link" href="#explorer">Pick a capability</a>
+            <Link className="secondary-link" href="/methodology">How to read this</Link>
           </div>
         </section>
 
-        <section className="help-strip" aria-label="How to use this resource">
-          <div>
-            <span>1</span>
-            <strong>Pick a question</strong>
-            <p>Choose a capability need such as naval autonomy or secure communications.</p>
+        <section>
+          <div className="section-head">
+            <h2>{mission.name} in {selectedRegion.name}</h2>
+            <p>Five public-evidence signals for the selected capability and region. Open any card to see how it is measured and which sources back it.</p>
           </div>
-          <div>
-            <span>2</span>
-            <strong>Compare signals</strong>
-            <p>Switch scale, density, capability signal, and source coverage to change the ranking.</p>
+          <div className="signal-grid" aria-label="Capability signals">
+            {signalOrder.map((key) => (
+              <SignalCard
+                key={key}
+                icon={signalIcon(key)}
+                label={signalLabels[key]}
+                signal={selectedScore.signals[key]}
+                detail={signalDetail(key, selectedScore, selectedRegion.name, mission.name, data)}
+                tone={signalTone(selectedScore.signals[key])}
+                onOpen={() => setDrawerSignal(key)}
+              />
+            ))}
           </div>
-          <div>
-            <span>3</span>
-            <strong>Open the evidence</strong>
-            <p>Use evidence briefs and source links to see what is measured and what is missing.</p>
-          </div>
-        </section>
-
-        <section className="signal-grid" aria-label="Capability signals">
-          {signalOrder.map((key) => (
-            <SignalCard
-              key={key}
-              icon={signalIcon(key)}
-              label={signalLabels[key]}
-              signal={selectedScore.signals[key]}
-              detail={signalDetail(key, selectedScore, selectedRegion.name, mission.name, data)}
-              tone={signalTone(selectedScore.signals[key])}
-              onOpen={() => setDrawerSignal(key)}
-            />
-          ))}
         </section>
 
         <section className="map-and-rank">
@@ -344,44 +299,19 @@ export function AtlasDashboard({ data, sources }: Props) {
           </div>
         </section>
 
-        <section className="chart-strip">
-          {indicatorOrder.map((key) => {
-            const indicator = selectedScore.indicators[key];
-            return (
-              <article key={key} className="indicator-card">
-                <div>
-                  <span className={`status-pill ${indicator.status}`}>{statusLabel(indicator.status)}</span>
-                  <h3>{indicatorLabels[key]}</h3>
-                </div>
-                <strong>{formatIndicator(indicator)}</strong>
-                <p>{displayIndicatorNote(key, indicator)}</p>
-                <div className="mini-sources">
-                  {indicator.sourceIds.slice(0, 2).map((sourceId) => (
-                    <a key={sourceId} href={sourceMap.get(sourceId)?.url ?? "#"} target="_blank" rel="noreferrer">
-                      {sourceId}
-                    </a>
-                  ))}
-                </div>
-              </article>
-            );
-          })}
-        </section>
-      </main>
-
-      <aside className="memo-panel">
-        <div className="memo-sticky">
-          <div className="panel-heading compact">
+        <section className="brief-panel">
+          <div className="brief-head">
             <div>
               <div className="eyebrow"><FileText size={13} /> Evidence brief</div>
               <h2>{mission.name} in {selectedRegion.name}</h2>
             </div>
-            <span className={`confidence ${selectedScore.confidence.toLowerCase()}`}>{selectedScore.confidence}</span>
+            <span className={`confidence ${selectedScore.confidence.toLowerCase()}`}>{selectedScore.confidence} confidence</span>
           </div>
 
           <div className="memo-preview">
             <p>
               Generate a cited brief that explains what is measured, what is missing, and which source links
-              support this capability-region view.
+              support this capability and region.
             </p>
             <dl>
               <div>
@@ -395,15 +325,16 @@ export function AtlasDashboard({ data, sources }: Props) {
             </dl>
           </div>
 
-          <button className="primary-action" type="button" onClick={requestBrief} disabled={briefState === "loading"}>
-            {briefState === "loading" ? <Loader2 className="spin" size={16} /> : <FileText size={16} />}
-            Generate evidence brief
-          </button>
-
-          <Link className="secondary-action" href={`/briefs/${selectedBriefSlug}`}>
-            <ArrowUpRight size={15} />
-            Open shareable brief
-          </Link>
+          <div className="brief-actions">
+            <button className="primary-action" type="button" onClick={requestBrief} disabled={briefState === "loading"}>
+              {briefState === "loading" ? <Loader2 className="spin" size={16} /> : <FileText size={16} />}
+              Generate evidence brief
+            </button>
+            <Link className="secondary-action" href={`/briefs/${selectedBriefSlug}`}>
+              <ArrowUpRight size={15} />
+              Open shareable brief
+            </Link>
+          </div>
 
           {briefState === "error" ? <p className="empty-state">Evidence brief request failed. Unsupported capability-region pairs are refused.</p> : null}
 
@@ -434,8 +365,37 @@ export function AtlasDashboard({ data, sources }: Props) {
               </div>
             </div>
           ) : null}
-        </div>
-      </aside>
+        </section>
+
+        <section>
+          <div className="section-head">
+            <h2>Evidence layers for {selectedRegion.name}</h2>
+            <p>The public data behind this view — what is measured today and what is still missing.</p>
+          </div>
+          <div className="chart-strip">
+            {indicatorOrder.map((key) => {
+              const indicator = selectedScore.indicators[key];
+              return (
+                <article key={key} className="indicator-card">
+                  <div>
+                    <span className={`status-pill ${indicator.status}`}>{statusLabel(indicator.status)}</span>
+                    <h3>{indicatorLabels[key]}</h3>
+                  </div>
+                  <strong>{formatIndicator(indicator)}</strong>
+                  <p>{displayIndicatorNote(key, indicator)}</p>
+                  <div className="mini-sources">
+                    {indicator.sourceIds.slice(0, 2).map((sourceId) => (
+                      <a key={sourceId} href={sourceMap.get(sourceId)?.url ?? "#"} target="_blank" rel="noreferrer">
+                        {sourceId}
+                      </a>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      </main>
 
       {drawerSignal && drawer ? (
         <aside className="methodology-drawer" role="dialog" aria-modal="true" aria-label={`${signalLabels[drawerSignal]} methodology`}>
